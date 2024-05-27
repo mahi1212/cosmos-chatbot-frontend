@@ -6,6 +6,7 @@ import UserLayout from "src/layout/UserLayout";
 import Chats from "src/pages/Chats/Chats";
 import Home from "src/pages/Home/Home";
 import Rewrite from "src/pages/Rewrite/Rewrite";
+import Settings from "src/pages/Settings/Settings";
 
 
 export const router = createBrowserRouter([
@@ -16,6 +17,10 @@ export const router = createBrowserRouter([
             {
                 path: "",
                 element: <Home />
+            },
+            {
+                path: "settings",
+                element: <Settings />
             },
             {
                 path: "",

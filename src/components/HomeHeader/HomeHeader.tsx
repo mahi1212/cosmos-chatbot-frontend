@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from "src/assets/images/cosmo-ai.png"
+import { useNavigate } from 'react-router-dom'
 
 
 const navigation = [
@@ -13,11 +14,11 @@ const navigation = [
 
 export default function HomeHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+  const navigate = useNavigate()
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <a href="#" className="sm:-ms-8 p-1.5">
+        <a href="#" className="sm:-ms-8 p-1.5" onClick={() => navigate('')}>
           <span className="sr-only">Your Company</span>
           <img className="h-8 w-auto rounded-full" src={logo} alt="logo" />
         </a>
