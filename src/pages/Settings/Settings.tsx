@@ -7,7 +7,7 @@
 
 export default function Settings() {
     return (
-        <div className="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div className="space-y-8">
                 <div className="flex w-full  justify-between">
                     <div className="flex gap-4">
@@ -16,7 +16,7 @@ export default function Settings() {
                     </div>
                     <div className="">
                         <button
-                            className="bg-black hover:bg-white hover:border-black border-2 hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
+                            className="bg-black hover:bg-white hover:border-black border-2 outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
                             type="submit"
                         >
                             Save Settings
@@ -30,7 +30,7 @@ export default function Settings() {
                         </label>
                         <div className="mt-1">
                             <textarea
-                                className="block w-full rounded-md border-2 p-1 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm "
+                                className="block w-full rounded-md border-2 outline-none p-1 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm "
                                 id="system-prompt"
                                 name="system-prompt"
                                 placeholder="Enter your system prompt..."
@@ -45,7 +45,7 @@ export default function Settings() {
                         <label className="block text-sm font-medium text-gray-700 " htmlFor="file-upload">
                             Upload File
                         </label>
-                        <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6 ">
+                        <div className="mt-1 flex justify-center rounded-md border-2 outline-none border-dashed border-gray-300 px-6 pt-5 pb-6 ">
                             <div className="space-y-1 text-center">
                                 <CloudUploadIcon className="mx-auto h-12 w-12 text-gray-400" />
                                 <div className="flex text-sm text-gray-600 ">
@@ -67,7 +67,7 @@ export default function Settings() {
                             GPT Model
                         </label>
                         <div className="mt-1">
-                            <select id="gpt-model" name="gpt-model" className="w-full border-2 border-dashed rounded-md py-1" defaultValue="gpt-3.5-turbo">
+                            <select id="gpt-model" name="gpt-model" className="w-full border-2 outline-none border-dashed rounded-md py-1" defaultValue="gpt-3.5-turbo">
                                 <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
                                 <option value="gpt-4">GPT-4</option>
                                 <option value="davinci">Davinci</option>
@@ -104,7 +104,7 @@ export default function Settings() {
                         </label>
                         <div className="mt-1">
                             <input
-                                className="block w-full p-1 border-2 border-dashed rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm "
+                                className="block w-full p-1 border-2 outline-none border-dashed rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm "
                                 defaultValue={1024}
                                 id="max-tokens"
                                 max={4096}

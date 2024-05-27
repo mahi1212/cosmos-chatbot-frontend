@@ -13,13 +13,14 @@ const Chats: React.FC = () => {
         }
         setLoading(true)
         try {
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/vectorSearch`, {
+            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/wf/vectorSearch`, {
                 prompt: message,
                 project: import.meta.env.VITE_PROJECT_NAME,
                 n: 5,
                 openai_api_key: import.meta.env.VITE_OPENAI_API_KEY
             })
 
+            // console.log(res)
             if (res) {
                 console.log('Here')
                 console.log(res.data.response.matching_texts)
