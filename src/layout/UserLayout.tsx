@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import HomeHeader from "../components/HomeHeader/HomeHeader"
+import HomeHeader from "src/components/HomeHeader/HomeHeader"
 
 const UserLayout: React.FC = () => {
     return (

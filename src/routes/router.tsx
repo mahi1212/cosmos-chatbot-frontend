@@ -1,11 +1,11 @@
 import {
     createBrowserRouter
 } from "react-router-dom";
-import UserLayout from "../layout/UserLayout";
-import Home from "../pages/Home/Home";
-import ServiceLayout from "../layout/ServiceLayout";
-import Chats from "../pages/Chats/Chats";
-import Rewrite from "../pages/Rewrite/Rewrite";
+import ServiceLayout from "src/layout/ServiceLayout";
+import UserLayout from "src/layout/UserLayout";
+import Chats from "src/pages/Chats/Chats";
+import Home from "src/pages/Home/Home";
+import Rewrite from "src/pages/Rewrite/Rewrite";
 
 
 export const router = createBrowserRouter([

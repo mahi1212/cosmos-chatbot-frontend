@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import logo from "src/assets/images/cosmo-ai.png"
+
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -15,9 +17,9 @@ export default function HomeHeader() {
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <a href="#" className="-m-1.5 p-1.5">
+        <a href="#" className="sm:-ms-8 p-1.5">
           <span className="sr-only">Your Company</span>
-          <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+          <img className="h-8 w-auto rounded-full" src={logo} alt="logo" />
         </a>
         <div className="flex lg:hidden">
           <button

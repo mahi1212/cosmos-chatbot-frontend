@@ -2,8 +2,8 @@ import { BiSend } from "react-icons/bi"
 import { FcGlobe } from "react-icons/fc"
 import { useLocation } from "react-router-dom"
 import { CiSquarePlus } from "react-icons/ci"
-import ChatHistory from "../Chats/History/ChatHistory"
-import RewriteHistory from "../Rewrite/History/RewriteHistory"
+import ChatHistory from "src/components/Chats/History/ChatHistory"
+import RewriteHistory from "src/components/Rewrite/History/RewriteHistory"
 
 
 const Sidebar: React.FC = () => {
