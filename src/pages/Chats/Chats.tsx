@@ -15,7 +15,7 @@ interface MessageInterface {
 
 const Chats: React.FC = () => {
     const auth = useAuth();
-    console.log(auth)
+    // console.log(auth)
 
     const [response, setResponse] = useState([])
     const [loading, setLoading] = useState(false)
@@ -83,7 +83,7 @@ const Chats: React.FC = () => {
         // };
 
         setTimeout(() => {
-            setChats((prev) => [...chatData.response]);
+            setChats([...chatData.response]);
             setLoading(false);
         }, 1000); // Simulate delay for assistant response
     };
@@ -108,12 +108,17 @@ const Chats: React.FC = () => {
         if (auth?.isLoggedin && auth?.user) {
             toast.loading('Fetching chats...', { id: 'fetching-chats' })
             getAllChats().then((data) => {
-                // console.log(data)
+                console.log(data.chats)
                 setChats(data.chats)
-                toast.success('Chats restored successfully', { id: 'fetching-chats' })
+                if (data.chats.length > 0) {
+                    toast.success('Chats restored successfully', { id: 'fetching-chats' })
+                }
+
             }).catch((e) => {
                 console.log(e)
                 toast.error('Unable to fetch chats')
+            }).finally(() => {
+                toast.dismiss('fetching-chats')
             })
         }
     }, [auth?.user])
@@ -121,13 +126,13 @@ const Chats: React.FC = () => {
 
     return (
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
-            <div className='text-end flex justify-between'>
+            <div className='text-end flex justify-between py-2 sm:py-0'>
                 <p className='flex items-center gap-2 cursor-text'>
                     <MdModeEditOutline />
                     <p
                         className=''
-                        // onClick={() => { toast.error('Feature not available yet'), {} }}
-                        onMouseOver={() => { toast.error('Edit name feature not available yet') }}
+                        // onMouseOver={() => { toast.error('Feature not available yet'), {} }}
+                        onClick={() => { toast.error('Edit name feature not available yet') }}
                     >
                         Edit Chat Title
                     </p>
@@ -146,8 +151,8 @@ const Chats: React.FC = () => {
             <div className='max-h-[75vh] overflow-y-auto py-10'>
                 {/* first chat question if chat is empty*/}
                 <div className='flex items-center gap-2'>
-                    <RiRobot3Fill className='w-10 h-10 border-2 rounded-full p-2' />
-                    <p className={`rounded-2xl py-3 px-5 inline shadow-md bg-gray-100 dark:bg-gray-800 text-gray-100`}>
+                    <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
+                    <p className={`rounded-lg py-2 px-5 inline shadow-md bg-gray-100 dark:bg-gray-800 text-gray-100`}>
                         Hello sir, How can I assist you?
                     </p>
                 </div>
@@ -172,14 +177,14 @@ const Chats: React.FC = () => {
                         </div>
                     )
                 })} */}
-                <div className="flex-1 overflow-y-auto space-y-5">
+                <div className="flex-1 overflow-y-auto space-y-5 pb-8">
                     {chats.map((chat, index) => (
-                        <div key={index} className={`flex items-start space-x-3 ${chat.role === 'user' ? 'justify-end' : ''}`}>
+                        <div key={index} className={`flex items-start space-x-3 ${chat.role === 'user' ? 'justify-end' : ''} ${index == 0 && 'mt-4 md:mt-0'}`}>
                             {chat.role === 'assistant' && (
-                                <RiRobot3Fill className='w-10 h-10 border-2 rounded-full p-2' />
+                                <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
                             )}
 
-                            <div className={`rounded-2xl py-3 px-5 inline shadow-md text-gray-100 ${chat.role === 'user' ? ' bg-blue-700' : 'bg-gray-800'}`}>
+                            <div className={`rounded-lg py-2 px-5 inline shadow-md text-gray-100 ${chat.role === 'user' ? ' bg-blue-700' : 'bg-gray-800'}`}>
                                 {chat.content}
                             </div>
                             {chat.role === 'user' && (
@@ -191,7 +196,7 @@ const Chats: React.FC = () => {
                 </div>
             </div>
 
-            <div className="absolute bottom-0 flex w-[97%] gap-2">
+            <div className="absolute bottom-0 flex w-[97%] gap-2 bg-slate-100">
                 <input
                     type="text"
                     onChange={(e) => {

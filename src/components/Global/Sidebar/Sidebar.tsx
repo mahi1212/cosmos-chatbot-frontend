@@ -13,7 +13,7 @@ const Sidebar: React.FC = () => {
   // console.log(pathname)
 
   return (
-    <div className="bg-slate-200 h-full relative rounded-md p-2 md:p-4">
+    <div className="bg-slate-200 h-full relative rounded-md p-3" >
       {/* header */}
       <div className="flex gap-2 items-center justify-between mb-2">
         <div className="flex items-center gap-2">
