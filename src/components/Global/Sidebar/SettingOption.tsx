@@ -12,7 +12,7 @@ const SettingOption = () => {
         >
 
             <div className="flex items-center w-full gap-2 cursor-pointer">
-                <button className="bg-black p-[10px] rounded-md">
+                <button className="bg-gray-800 p-[10px] rounded-md">
                     <IoSettings className="h-5 w-5 text-white" />
                     <span className="sr-only">Send</span>
                 </button>

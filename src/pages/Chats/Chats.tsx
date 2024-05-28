@@ -1,8 +1,22 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useLayoutEffect, useState } from 'react'
+import toast from 'react-hot-toast'
+import { IoMdTrash } from 'react-icons/io'
+import { MdModeEditOutline } from 'react-icons/md'
+import { RiRobot3Fill } from 'react-icons/ri'
+import { useAuth } from 'src/context/AuthContent'
+import { deleteAllChats, getAllChats, sendChatRequest } from 'src/helpers/api-communicator'
+
+
+interface MessageInterface {
+    role: 'system' | 'user' | 'assistant',
+    content: string
+}
 
 const Chats: React.FC = () => {
-    const [message, setMessage] = useState('')
+    const auth = useAuth();
+    console.log(auth)
+
     const [response, setResponse] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -40,24 +54,114 @@ const Chats: React.FC = () => {
         }
 
     }
+
+    const [message, setMessage] = useState('')
+    const [chats, setChats] = useState<MessageInterface[]>([])
+
+    // console.log(chats)
+    const handleChatCompletion = async () => {
+        if (message.length === 0) {
+            alert('Please enter a message');
+            return;
+        }
+        setLoading(true);
+
+        const newMessage: MessageInterface = {
+            role: 'user',
+            content: message
+        };
+
+        setChats((prev) => [...prev, newMessage]);
+        setMessage('');
+
+        // Simulate a response from the assistant (for demonstration purposes)
+        const chatData = await sendChatRequest(message);
+        console.log(chatData.response)
+        // const assistantResponse: MessageInterface = {
+        //     role: 'assistant',
+        //     content: 'This is a response from MahiBot.'
+        // };
+
+        setTimeout(() => {
+            setChats((prev) => [...chatData.response]);
+            setLoading(false);
+        }, 1000); // Simulate delay for assistant response
+    };
+
+    const handleClearChats = async () => {
+        if (chats.length === 0) {
+            toast.error('No chats to clear')
+            return
+        }
+        try {
+            toast.loading('Clearing chats...', { id: 'clearing-chats' })
+            await deleteAllChats()
+            setChats([])
+            toast.success('Chats cleared successfully', { id: 'clearing-chats' })
+        } catch (e) {
+            console.log(e)
+            toast.error('Unable to clear chats')
+        }
+    }
+
+    useLayoutEffect(() => {
+        if (auth?.isLoggedin && auth?.user) {
+            toast.loading('Fetching chats...', { id: 'fetching-chats' })
+            getAllChats().then((data) => {
+                // console.log(data)
+                setChats(data.chats)
+                toast.success('Chats restored successfully', { id: 'fetching-chats' })
+            }).catch((e) => {
+                console.log(e)
+                toast.error('Unable to fetch chats')
+            })
+        }
+    }, [auth?.user])
+
+
     return (
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
-            <div className='max-h-[75vh] overflow-y-auto py-10'>
-                {/* first chat question*/}
-                <p className="bg-slate-200 inline-block px-4 rounded-full py-1">
-                    Hello sir, How can I assist you?
+            <div className='text-end flex justify-between'>
+                <p className='flex items-center gap-2 cursor-text'>
+                    <MdModeEditOutline />
+                    <p
+                        className=''
+                        // onClick={() => { toast.error('Feature not available yet'), {} }}
+                        onMouseOver={() => { toast.error('Edit name feature not available yet') }}
+                    >
+                        Edit Chat Title
+                    </p>
                 </p>
+                {
+                    chats.length > 0 &&
+                    <p
+                        className='flex items-center bg-slate-800 px-3 py-1 text-white rounded-md gap-2 cursor-pointer'
+                        onClick={handleClearChats}
+                    >
+                        Clear
+                        <IoMdTrash />
+                    </p>
+                }
+            </div>
+            <div className='max-h-[75vh] overflow-y-auto py-10'>
+                {/* first chat question if chat is empty*/}
+                <div className='flex items-center gap-2'>
+                    <RiRobot3Fill className='w-10 h-10 border-2 rounded-full p-2' />
+                    <p className={`rounded-2xl py-3 px-5 inline shadow-md bg-gray-100 dark:bg-gray-800 text-gray-100`}>
+                        Hello sir, How can I assist you?
+                    </p>
+                </div>
 
-                <div className='text-end w-full'>
+                {/* <div className='text-end w-full'>
                     {
                         response?.length > 0 && message &&
                         <p className='bg-indigo-600 text-white inline-block px-4 py-2 rounded-lg'>
                             {message}
                         </p>
                     }
-                </div>
+                </div> */}
 
-                {response?.map((res: any, index) => {
+                {/* {response?.map((res: any, index) => {
                     return (
                         <div key={index}
                             className={`text-start ${res.role == 'assistant' ? 'block' : 'hidden'} mt-3`}
@@ -67,57 +171,54 @@ const Chats: React.FC = () => {
                             </p>
                         </div>
                     )
-                })}
+                })} */}
+                <div className="flex-1 overflow-y-auto space-y-5">
+                    {chats.map((chat, index) => (
+                        <div key={index} className={`flex items-start space-x-3 ${chat.role === 'user' ? 'justify-end' : ''}`}>
+                            {chat.role === 'assistant' && (
+                                <RiRobot3Fill className='w-10 h-10 border-2 rounded-full p-2' />
+                            )}
+
+                            <div className={`rounded-2xl py-3 px-5 inline shadow-md text-gray-100 ${chat.role === 'user' ? ' bg-blue-700' : 'bg-gray-800'}`}>
+                                {chat.content}
+                            </div>
+                            {chat.role === 'user' && (
+                                // <RiRobot3Fill className='w-10 h-10 border-2 rounded-full p-2' />
+                                <p className='w-10 h-10 border-2 rounded-full p-2 text-center bg-slate-800 text-white'>{auth?.user?.name.charAt(0).toUpperCase()}</p>
+                            )}
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            <div className='absolute w-[97%] flex gap-2 bottom-0'>
+            <div className="absolute bottom-0 flex w-[97%] gap-2">
                 <input
                     type="text"
                     onChange={(e) => {
                         setMessage(e.target.value)
                     }}
+                    value={message}
                     onKeyDown={(e) => {
-                        if (e.key == 'Enter') {
-                            handleChatResponse()
+                        if (e.key === 'Enter') {
+                            handleChatCompletion()
                         }
                     }}
                     placeholder="Enter a message"
-                    style={{
-                        position: "relative",
-                        marginTop: '10px',
-                        bottom: "20px",
-                        width: "85%",
-                        padding: "11px 10px",
-                        outline: 'none',
-                        border: "1px solid #ccc",
-                        background: "#fff",
-                        borderRadius: "5px"
-                    }}
+                    className="relative mt-2 mb-[20px] w-[85%] p-[11px] pr-10 outline-none border border-gray-300 bg-white rounded"
                 />
                 <button
-                    onClick={handleChatResponse}
-                    disabled={loading == true}
-                    style={{
-                        position: "relative",
-                        marginTop: '10px',
-                        bottom: "20px",
-                        width: "15%",
-                        padding: "10px",
-                        outline: 'none',
-                        border: "1px solid #ccc",
-                        background: "#fff",
-                        borderRadius: "5px",
-                        cursor: 'pointer'
-                    }}
+                    onClick={handleChatCompletion}
+                    disabled={loading === true}
+                    className={`relative mt-2 mb-[20px] w-[15%] p-[10px] outline-none border border-gray-300 bg-white rounded cursor-pointer ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
                 >
-                    {
-                        loading ? 'Loading..' : 'Send'
-                    }
+                    {loading ? 'Loading..' : 'Send'}
                 </button>
             </div>
 
         </div >
     )
 }
+
+
 
 export default Chats
