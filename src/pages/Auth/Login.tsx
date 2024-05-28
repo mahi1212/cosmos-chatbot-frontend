@@ -5,7 +5,7 @@ import { useAuth } from 'src/context/AuthContent'
 
 const Login = () => {
     const auth = useAuth() 
-    const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(false)
+    const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(true)
 
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
