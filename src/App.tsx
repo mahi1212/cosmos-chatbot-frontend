@@ -3,9 +3,11 @@ import {
 } from 'react-router-dom'
 import { router } from "./routes/router"
 import { AuthProvider } from './context/AuthContent'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return <AuthProvider>
+    <Toaster position='top-right' /> 
     <RouterProvider router={router} />
   </AuthProvider>
 }

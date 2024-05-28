@@ -1,4 +1,5 @@
 import { ReactNode, useState, createContext, useEffect, useContext } from 'react';
+import { loginUser } from 'src/helpers/api-communicator';
 
 interface User {
     name: string;
@@ -20,7 +21,14 @@ export const AuthProvider = ({ children }: {children: ReactNode}) => {
     const [user, setUser] = useState<User | null>(null)
     const [isLoggedin, setIsLoggedin] = useState(false);
 
-    const login = async (email: string, password: string) => { }
+    const login = async (email: string, password: string) => { 
+        const data = await loginUser(email, password);
+        if(data) {
+            setUser(data)
+            setIsLoggedin(true)
+        }
+
+    }
     const signup = async (name: string, email: string, password: string) => { }
     const logout = async () => { }
 

@@ -9,7 +9,6 @@ import { GoPerson } from 'react-icons/go'
 
 const navigation = [
   { name: 'Home', href: '/' },
-  { name: 'Setting', href: '/settings' },
   { name: 'Contact', href: '/contact' },
 ]
 

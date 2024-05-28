@@ -9,7 +9,7 @@ const Home: React.FC = () => {
     const user = useAuth();
     console.log(user)
     return (
-        <div className="bg-slate-100 rounded-md p-4 ">
+        <div className="bg-slate-100 rounded-md sm:p-4 p-2 ">
             <p className="flex items-center gap-2">
                 <RiCustomerService2Line />
                 Please Choose a service below
