@@ -3,18 +3,22 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from "src/assets/images/cosmo-ai.png"
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from 'src/context/AuthContent'
+import { GoPerson } from 'react-icons/go'
 
 
 const navigation = [
-  { name: 'Product', href: '#' },
-  { name: 'Features', href: '#' },
-  { name: 'Marketplace', href: '#' },
-  { name: 'Company', href: '#' },
+  { name: 'Home', href: '/' },
+  { name: 'Setting', href: '/settings' },
+  { name: 'Contact', href: '/contact' },
 ]
 
 export default function HomeHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
+  const user = useAuth()
+
+
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -32,15 +36,25 @@ export default function HomeHeader() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
+        <div className="hidden lg:flex lg:gap-x-12 items-center">
           {navigation.map((item) => (
-            <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
+            <p key={item.name} onClick={() => navigate(item.href)} className="cursor-pointer text-sm font-semibold leading-6 text-gray-900">
               {item.name}
-            </a>
+            </p>
           ))}
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Log in <span aria-hidden="true">&rarr;</span>
-          </a>
+          {/* login button */}
+          {
+            user?.isLoggedin === true ?
+              <p
+                className="cursor-pointer border-2 p-2 rounded-lg hover:bg-slate-200"
+                onClick={() => navigate('settings')}
+              >
+                <GoPerson />
+              </p> : <p onClick={() => navigate('login')} className="cursor-pointer text-sm font-semibold leading-6 text-gray-900">
+                Log in <span aria-hidden="true">&rarr;</span>
+              </p>
+          }
+
         </div>
       </nav>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
@@ -68,13 +82,14 @@ export default function HomeHeader() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 {navigation.map((item) => (
-                  <a
+                  <p
                     key={item.name}
-                    href={item.href}
+                    onClick={() => navigate(item.href)}
+                    // href={item.href}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                   >
                     {item.name}
-                  </a>
+                  </p>
                 ))}
               </div>
               <div className="py-6">

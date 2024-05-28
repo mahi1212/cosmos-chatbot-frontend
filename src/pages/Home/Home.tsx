@@ -2,10 +2,12 @@ import { PiNewspaper } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { RiCustomerService2Line, RiRobot3Line } from "react-icons/ri";
 import Typewriter from 'typewriter-effect';
+import { useAuth } from "src/context/AuthContent";
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
-
+    const user = useAuth();
+    console.log(user)
     return (
         <div className="bg-slate-100 rounded-md p-4 ">
             <p className="flex items-center gap-2">
