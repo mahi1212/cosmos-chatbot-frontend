@@ -5,6 +5,7 @@ import ServiceLayout from "src/layout/ServiceLayout";
 import UserLayout from "src/layout/UserLayout";
 import Login from "src/pages/Auth/Login";
 import Chats from "src/pages/Chats/Chats";
+import Contact from "src/pages/Contact/Contact";
 import Home from "src/pages/Home/Home";
 import Rewrite from "src/pages/Rewrite/Rewrite";
 import Settings from "src/pages/Settings/Settings";
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
             {
                 path: "settings",
                 element: <Settings />
+            },
+            {
+                path: "contact",
+                element: <Contact />
             },
             {
                 path: "login",

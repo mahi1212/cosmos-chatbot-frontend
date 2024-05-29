@@ -1,11 +1,9 @@
 
-// import { Textarea } from "@/components/ui/textarea"
-// import { Input } from "@/components/ui/input"
-// import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
-// import { Slider } from "@/components/ui/slider"
-// import { Button } from "@/components/ui/button"
+import { useAuth } from "src/context/AuthContent"
 
 export default function Settings() {
+    const auth = useAuth()
+    console.log(auth)
     return (
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             <div className="space-y-8">
@@ -14,7 +12,19 @@ export default function Settings() {
                         <h1 className="text-3xl font-bold">Settings</h1>
                         <p className="mt-2 text-gray-500 ">- Customize your AI chatbot settings.</p>
                     </div>
-                    <div className="">
+                    <div className="flex items-center">
+                        {
+                            auth?.isLoggedin === true &&
+                            <button
+                                onClick={auth.logout}
+                                className="bg-black hover:bg-white hover:border-black border-2 outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
+                                type="submit"
+                            >
+                                Logout
+                            </button>
+                        }
+
+
                         <button
                             className="bg-black hover:bg-white hover:border-black border-2 outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
                             type="submit"

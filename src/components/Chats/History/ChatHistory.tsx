@@ -1,61 +1,31 @@
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { IoMdTrash } from "react-icons/io";
+import { MdModeEditOutline } from "react-icons/md";
+import { PiSmileySadLight } from "react-icons/pi";
+import { deleteSingleChat } from "src/helpers/api-communicator";
 
-const ChatHistory: React.FC = () => {
+interface ChatHistoryProps {
+    history: ChatHistoryItem[];
+    chat_id: string;
+}
+interface ChatHistoryItem {
+    title: string;
+    _id: string;
+}
 
-    const history = [
-        {
-            title: "Suggest me some name of headphone",
-            sub_title: "Asus, TUF, Corsair"
-        },
-        {
-            title: "What are the best programming languages to learn in 2024?",
-            sub_title: "Python, JavaScript, Go, Rust"
-        },
-        {
-            title: "Recommend some good books on personal finance",
-            sub_title: "Rich Dad Poor Dad, The Intelligent Investor, Your Money or Your Life"
-        },
-        // {
-        //     title: "What's the best way to stay fit?",
-        //     sub_title: "Regular exercise, Balanced diet, Adequate sleep"
-        // },
-        // {
-        //     title: "Suggest popular travel destinations for 2024",
-        //     sub_title: "Japan, Italy, New Zealand, Canada"
-        // },
-        // {
-        //     title: "Recommend some good books on personal finance",
-        //     sub_title: "Rich Dad Poor Dad, The Intelligent Investor, Your Money or Your Life"
-        // },
-        // {
-        //     title: "What's the best way to stay fit?",
-        //     sub_title: "Regular exercise, Balanced diet, Adequate sleep"
-        // },
-        // {
-        //     title: "Suggest popular travel destinations for 2024",
-        //     sub_title: "Japan, Italy, New Zealand, Canada"
-        // },
-        {
-            title: "What are some effective time management techniques?",
-            sub_title: "Pomodoro Technique, Eisenhower Matrix, Time Blocking"
-        },
-        {
-            title: "Recommend some high-quality laptops for gaming",
-            sub_title: "Alienware, Razer Blade, ASUS ROG, MSI"
-        },
-        {
-            title: "What are the benefits of meditation?",
-            sub_title: "Reduced stress, Improved concentration, Enhanced self-awareness"
-        },
-        {
-            title: "Best practices for remote working?",
-            sub_title: "Set a schedule, Create a dedicated workspace, Take regular breaks"
-        },
-        {
-            title: "What are the top cryptocurrencies to invest in?",
-            sub_title: "Bitcoin, Ethereum, Cardano, Solana"
+const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
+
+    const handleClearChats = async (chat_id: string) => {
+        try {
+            toast.loading('Clearing chats...', { id: 'clearing-chats' })
+            await deleteSingleChat(chat_id)
+            toast.success('Chats cleared successfully', { id: 'clearing-chats' })
+        } catch (e) {
+            console.log(e)
+            toast.error('Unable to clear chats')
         }
-    ];
-
+    }
 
     return (
         <div className="py-2">
@@ -63,11 +33,56 @@ const ChatHistory: React.FC = () => {
                 history.map((item, index) => {
                     return <div
                         key={index}
-                        className="bg-slate-100 mb-2 p-2 rounded-sm text-sm cursor-pointer"
+                        className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 cursor-pointer transition-all duration-300 ease-in-out mb-2 ${chat_id == item._id && ' font-semibold'}`}
+                        onClick={() => {
+                            if (chat_id == item._id) {
+                                return
+                            }
+                            localStorage.setItem('chat_id', item._id)
+                            window.location.reload()
+                        }}
                     >
-                        {item.title}
+
+                        <p>
+                            {index + 1}. {item.title}
+                        </p>
+
+
+                        <div className="flex items-center gap-2">
+                            <p className='p-2 bg-gray-200 rounded-full'
+                                onClick={(e) => { 
+                                    e.stopPropagation()
+                                    toast.error('Edit title feature !available yet')
+                                 }}
+                            >
+                                <MdModeEditOutline className="w-4 h-4" />
+                            </p>
+                            <button
+                                className={`p-2 bg-gray-200 rounded-full hover:bg-red-200 transition-all duration-300 ease-in-out ${chat_id == item._id && 'text-gray-400 cursor-not-allowed'}`}
+                                onClick={() => {
+                                    if (chat_id == item._id) {
+                                        toast.error('Active chat cannot be deleted')
+                                        return
+                                    }
+
+                                    handleClearChats(item._id)
+                                }}
+                            >
+                                <IoMdTrash className="w-4 h-4" />
+                            </button>
+                        </div>
+
                     </div>
                 })
+            }
+            {
+                history.length == 0 &&
+                <p
+                    className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2`}
+                >
+                    No chats available
+                    <PiSmileySadLight />
+                </p>
             }
         </div>
     )
