@@ -21,7 +21,7 @@ export default function HomeHeader() {
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <a href="#" className="sm:-ms-8 p-1.5" onClick={() => navigate('')}>
+        <a href="#" className="-ms-3 p-1.5" onClick={() => navigate('')}>
           <span className="sr-only">Your Company</span>
           <img className="h-8 w-auto rounded-full" src={logo} alt="logo" />
         </a>

@@ -1,12 +1,20 @@
 import { BoltIcon } from '@heroicons/react/24/outline'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 
 const Login = () => {
     const auth = useAuth() 
     const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(true)
-
+    const navigate = useNavigate();
+    // console.log(auth)
+    // useEffect(() => {
+    //     if (auth && auth.isLoggedin) {
+    //         toast.success('User is logged in..')
+    //         navigate('/');
+    //     }
+    // }, [auth]);
     const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
@@ -21,8 +29,13 @@ const Login = () => {
 
         try{
             // toast.loading('Please wait...')
-            await auth?.login(email, password)
-            toast.success('Login successful')
+            if(alreadyHaveAccount){
+                await auth?.login(email, password)
+            }else{
+                await auth?.signup(name, email, password)
+            }
+
+            toast.success('Authenticaiton successful')
         }catch(e: any) {
             console.log(e.response.data.message)
             toast.error('Login failed')

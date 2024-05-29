@@ -2,7 +2,7 @@
 import { Outlet } from "react-router-dom"
 import Sidebar from "src/components/Global/Sidebar/Sidebar"
 
-const ServiceLayout : React.FC = () => {
+const ServiceLayout: React.FC = () => {
     return (
         <div className="max-w-7xl mx-auto px-3">
 

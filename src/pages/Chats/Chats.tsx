@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { IoMdTrash } from 'react-icons/io'
 import { MdModeEditOutline } from 'react-icons/md'
 import { RiRobot3Fill } from 'react-icons/ri'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { deleteSingleChat, getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
 
@@ -16,6 +17,7 @@ interface MessageInterface {
 const Chats: React.FC = () => {
     const auth = useAuth();
     // console.log(auth)
+    const navigate = useNavigate();
 
     const [response, setResponse] = useState([])
     const [loading, setLoading] = useState(false)
@@ -67,6 +69,13 @@ const Chats: React.FC = () => {
     // console.log(chats)
     // console.log(chat_id)
     const handleChatCompletion = async () => {
+
+        if(auth?.user == null) {
+            toast.error('Please login to continue')
+            navigate('/login')
+            return
+        }
+
         if (message.length === 0) {
             alert('Please enter a message');
             return;
@@ -88,7 +97,6 @@ const Chats: React.FC = () => {
         setLoading(false);
     };
 
-    console.log(chat_id)
     useLayoutEffect(() => {
         if (auth?.isLoggedin && auth?.user) {
             toast.loading('Fetching chats...', { id: 'fetching-chats' })
@@ -104,7 +112,7 @@ const Chats: React.FC = () => {
 
             }).catch((e) => {
                 // console.log(e)
-                toast.error('Unable to fetch chats')
+                toast.error('No chat avaiable')
             }).finally(() => {
                 toast.dismiss('fetching-chats')
             })
@@ -114,13 +122,11 @@ const Chats: React.FC = () => {
 
     return (
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
-            <div className='text-end flex justify-between py-2 sm:py-0'>
-                <div className='flex items-center gap-2 cursor-pointer mb-5'>
-                    {
-                        title &&
-                        <p>CONTENT - {title.toUpperCase()}</p>
-                    }
-                </div>
+            <div className='text-end flex justify-center py-2 sm:py-0 mb-4'>
+                {
+                    title &&
+                    <p className=' text-center border-b-2 w-full pb-4'>CONTEXT - {title.toUpperCase()}</p>
+                }
             </div>
             <div className='max-h-[75vh] overflow-y-auto pb-10'>
                 {/* first chat question if chat is empty*/}

@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
         </div>
         {/* for adding new chat */}
         <CiSquarePlus
-          className="text-lg text-green-800 cursor-pointer w-6 h-6"
+          className="text-lg text-green-800 cursor-pointer w-6 h-6 hover:text-green-500 transition-all duration-300 ease-in-out"
           onClick={() => { 
             localStorage.removeItem('chat_id')
             window.location.reload()
