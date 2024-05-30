@@ -44,16 +44,16 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
                     >
 
                         <p>
-                            {index + 1}. {item.title}
+                            {index + 1}. {item.title.slice(0, 20) + (item.title.length > 20 ? '...' : '')}
                         </p>
 
 
                         <div className="flex items-center gap-2">
                             <p className='p-2 bg-gray-200 rounded-full'
-                                onClick={(e) => { 
+                                onClick={(e) => {
                                     e.stopPropagation()
                                     toast.error('Edit title feature !available yet')
-                                 }}
+                                }}
                             >
                                 <MdModeEditOutline className="w-4 h-4" />
                             </p>

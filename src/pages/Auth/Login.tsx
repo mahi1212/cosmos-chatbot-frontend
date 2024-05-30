@@ -88,7 +88,7 @@ const Login = () => {
                                 className='text-center cursor-pointer'
                                 onClick={() => setAlreadyHaveAccount(false)}
                             >
-                                Already have an account?
+                                Don't have an account?
                             </p>
 
                     }

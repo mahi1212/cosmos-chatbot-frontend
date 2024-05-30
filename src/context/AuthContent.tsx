@@ -42,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(null)
         setIsLoggedin(false)
         window.location.reload()
+        localStorage.clear()
     }
 
     useEffect(() => {

@@ -22,7 +22,7 @@ const Contact: React.FC = () => {
                             <h2 className="text-xl font-semibold">Mahinur Rahman</h2>
                             <p className="text-gray-500">Full stack Developer (React + Typescript + Node + Express + Docker)</p>
                             <p className="text-gray-500">
-                                I'm a passionate frontend developer with 3+ years of experience. I specialize in building modern,
+                                I'm a passionate frontend developer with 2+ years of experience. I specialize in building modern,
                                 responsive web applications using the latest technologies.
                             </p>
                         </div>

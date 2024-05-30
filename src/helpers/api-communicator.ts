@@ -13,7 +13,7 @@ export const loginUser = async (email: string, password: string) => {
 
 
 export const signupUser = async (name: string, email: string, password: string) => {
-    const res = await axios.post('/user/signup', {name, email, password })
+    const res = await axios.post('/user/signup', { name, email, password })
 
     if (res.status !== 200) {
         throw new Error('Login failed')
@@ -78,6 +78,34 @@ export const logoutUser = async () => {
     const res = await axios.get('/user/logout')
     if (res.status !== 200) {
         throw new Error('Unable to deelete chat history')
+    }
+    const data = await res.data;
+    return data
+}
+
+export const getSettings = async (id: string) => {
+    const res = await axios.get('/user/settings?id=' + id)
+    if (res.status !== 200) {
+        throw new Error('Unable to get settings')
+    }
+    const data = await res.data;
+    return data
+}
+
+interface SettingsInterface {
+    system_prompt?: String,
+    gpt_version?: String,
+    temperature?: Number,
+    max_tokens?: Number,
+    top_p?: Number,
+    frequency_penalty?: Number,
+    token_usage?: Number
+}
+
+export const updateSettings = async (settings: SettingsInterface) => {
+    const res = await axios.patch('/user/settings', { settings })
+    if (res.status !== 200) {
+        throw new Error('Unable to update settings')
     }
     const data = await res.data;
     return data
