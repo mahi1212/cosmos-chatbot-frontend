@@ -19,8 +19,10 @@ export default function Settings() {
     console.log(auth)
     useEffect(() => {
         async function fetchSettings() {
+            // @ts-ignore
             if (auth?.user && auth.user.id) {
                 try {
+                    // @ts-ignore
                     const data = await getSettings(auth.user.id);
                     setSettings(data.settings);
                 } catch (e: any) {
@@ -60,7 +62,7 @@ export default function Settings() {
         try {
             const response = await updateSettings(data);
             setSettings(response.settings);
-            if(response.message === 'OK') {
+            if (response.message === 'OK') {
                 toast.success('Settings updated successfully');
             }
         } catch (e: any) {
