@@ -151,7 +151,7 @@ export default function Settings() {
                             className="w-full border-2 outline-none border-dashed rounded-md py-1"
                             defaultValue={settings?.model || 'gpt-3.5-turbo'}
                             onChange={(e) => setModel(e.target.value)}
-                            value={model}
+                            value={model || 'gpt-3.5-turbo'}
                         >
                             {['gpt-3.5-turbo', 'gpt-4', 'gpt-4o'].map((model, index) => (
                                 <option value={model} key={index}>

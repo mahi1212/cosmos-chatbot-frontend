@@ -5,24 +5,29 @@ import ChatHistory from "src/components/Chats/History/ChatHistory"
 import RewriteHistory from "src/components/Rewrite/History/RewriteHistory"
 import SettingOption from "./SettingOption"
 // import { useAuth } from "src/context/AuthContent"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { getAllChats } from "src/helpers/api-communicator"
+import { useAtom, useAtomValue } from "jotai"
+import { chatHistoryAtom, chatIdAtom, titleAtom } from "src/store/jotai"
 
 
 const Sidebar: React.FC = () => {
-  const [history, setHistory] = useState([] as any[])
+  const [history, setHistory] = useAtom(chatHistoryAtom)
+
   const location = useLocation();
   const pathname = location.pathname;
   // console.log(pathname)
   // const auth = useAuth();
 
-  const [chat_id, setChat_id] = useState(localStorage.getItem('chat_id') || '')
+  const [chat_id, setChat_id] = useAtom(chatIdAtom)
+  const [title, setTitle] = useAtom(titleAtom)
+  // console.log(title)
   // console.log(history)
   useEffect(() => {
     getAllChats().then((data) => {
       setHistory(data.history)
     })
-  }, [chat_id])
+  }, [chat_id, title])
 
   return (
     <div className="bg-slate-200 h-full relative rounded-md p-3 " >
@@ -33,13 +38,19 @@ const Sidebar: React.FC = () => {
           <p className="text-lg">COSMOS AI</p>
         </div>
         {/* for adding new chat */}
-        <CiSquarePlus
-          className="text-lg text-green-800 cursor-pointer w-6 h-6 hover:text-green-500 transition-all duration-300 ease-in-out"
-          onClick={() => { 
-            localStorage.removeItem('chat_id')
-            window.location.reload()
-          }}
-        />
+        <div className='has-tooltip cursor-pointer'
+          onClick={() => {
+            setChat_id('')
+            setTitle('')
+          }}>
+          <span className='tooltip rounded shadow-lg px-4 py-2 bg-slate-100 text-slate-500 -mt-2 -ms-28 w-28 inline'>
+            New Chat
+          </span>
+          <CiSquarePlus
+            className="text-lg text-green-800 cursor-pointer w-6 h-6 hover:text-slate-500 transition-all duration-300 ease-in-out"
+          />
+        </div>
+
       </div>
 
       {/* History list */}
@@ -49,12 +60,8 @@ const Sidebar: React.FC = () => {
         }
       </div>
 
-
       {/* <Systemprompt /> */}
       <SettingOption />
-      {/* <p className="cursor-pointer border-2 p-2 rounded-lg">
-        <GoPerson />
-      </p> */}
     </div>
   )
 }

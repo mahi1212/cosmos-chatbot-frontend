@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { useEffect, useLayoutEffect, useState } from 'react'
+import { useAtom } from 'jotai'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 import { IoMdTrash } from 'react-icons/io'
 import { MdModeEditOutline } from 'react-icons/md'
@@ -7,6 +8,7 @@ import { RiRobot3Fill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { deleteSingleChat, getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
+import { chatHistoryAtom, chatIdAtom, titleAtom } from 'src/store/jotai'
 
 
 interface MessageInterface {
@@ -59,18 +61,33 @@ const Chats: React.FC = () => {
 
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState<MessageInterface[]>([])
-    const [title, setTitle] = useState('')
-    const [chat_id, setChat_id] = useState(localStorage.getItem('chat_id') || '')
+    const [title, setTitle] = useAtom(titleAtom)
+    const [chat_id, setChat_id] = useAtom(chatIdAtom)
+    const chatContainerRef = useRef<null | HTMLDivElement>(null)
+
+    const scrollToBottom = () => {
+        chatContainerRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
+    useEffect(() => {
+        scrollToBottom()
+    }, [chats]);
 
     useEffect(() => {
         setChat_id(localStorage.getItem('chat_id') || '')
     }, [])
+
+
     // console.log(title)
     // console.log(chats)
     // console.log(chat_id)
-    const handleChatCompletion = async () => {
 
-        if(auth?.user == null) {
+
+    const handleChatCompletion = async () => {
+        // console.log('hit')
+
+
+        if (auth?.user == null) {
             toast.error('Please login to continue')
             navigate('/login')
             return
@@ -82,17 +99,19 @@ const Chats: React.FC = () => {
         }
         setLoading(true);
 
+        if (chats.length == 0) {
+            setTitle(message)
+        }
+
         const newMessage: MessageInterface = {
             role: 'user',
             content: message
         };
-
         setChats((prev) => [...prev, newMessage]);
         setMessage('');
 
         // Simulate a response from the assistant (for demonstration purposes)
         const chatData = await sendChatRequest(message, chat_id);
-
         setChats([...chatData.response]);
         setLoading(false);
     };
@@ -122,10 +141,11 @@ const Chats: React.FC = () => {
 
     return (
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
-            <div className='text-end flex justify-center py-2 sm:py-0 mb-4'>
+            <div className='text-end flex justify-center py-2 sm:py-0'>
                 {
-                    title &&
-                    <p className=' text-center border-b-2 w-full pb-4'>CONTEXT - {title.toUpperCase()}</p>
+                    title && title !== "" && title !== "No title" && (
+                        <p className='text-center border-b-2 w-full pb-4'>CONTEXT - {title.toUpperCase()}</p>
+                    )
                 }
             </div>
             <div className='max-h-[75vh] overflow-y-auto pb-10'>
@@ -137,27 +157,7 @@ const Chats: React.FC = () => {
                     </p>
                 </div>
 
-                {/* <div className='text-end w-full'>
-                    {
-                        response?.length > 0 && message &&
-                        <p className='bg-indigo-600 text-white inline-block px-4 py-2 rounded-lg'>
-                            {message}
-                        </p>
-                    }
-                </div> */}
-
-                {/* {response?.map((res: any, index) => {
-                    return (
-                        <div key={index}
-                            className={`text-start ${res.role == 'assistant' ? 'block' : 'hidden'} mt-3`}
-                        >
-                            <p className='bg-slate-200 text-black inline-block px-3 py-5 rounded-lg' >
-                                {res.role == 'assistant' && res.content}
-                            </p>
-                        </div>
-                    )
-                })} */}
-                <div className="flex-1 overflow-y-auto space-y-5 pb-8">
+                <div className="flex-1 overflow-y-auto space-y-5 pb-8" >
                     {chats.map((chat, index) => (
                         <div key={index} className={`flex items-start space-x-3 ${chat.role === 'user' ? 'justify-end' : ''} ${index == 0 && 'mt-4 md:mt-0'}`}>
                             {chat.role === 'assistant' && (
@@ -173,10 +173,21 @@ const Chats: React.FC = () => {
                             )}
                         </div>
                     ))}
+
+                    {
+                        loading && <div className={`flex items-start space-x-3 justify-start mt-4 md:mt-0`}>
+                            <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
+                            <div className="rounded-lg py-2 px-5 inline shadow-md text-gray-100 bg-gray-800 max-w-[80%]" >
+                                Mahi bot is thinking...
+                            </div>
+                        </div>
+                    }
+
+                    <div ref={chatContainerRef} />
                 </div>
             </div>
 
-            <div className="absolute bottom-0 flex w-[97%] gap-2 bg-slate-100">
+            <div className="absolute bottom-0 w-[97%] bg-slate-100">
                 <input
                     type="text"
                     onChange={(e) => {
@@ -188,7 +199,7 @@ const Chats: React.FC = () => {
                             handleChatCompletion()
                         }
                     }}
-                    placeholder="Enter a message"
+                    placeholder={chats?.length == 0 ? 'Write your first message..' : 'Enter a message'}
                     className="relative mt-2 mb-[20px] w-[85%] p-[11px] pr-10 outline-none border border-gray-300 bg-white rounded"
                 />
                 <button

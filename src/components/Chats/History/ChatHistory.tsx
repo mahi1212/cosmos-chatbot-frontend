@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import toast from "react-hot-toast";
 import { IoMdTrash } from "react-icons/io";
 import { MdModeEditOutline } from "react-icons/md";
 import { PiSmileySadLight } from "react-icons/pi";
 import { deleteSingleChat } from "src/helpers/api-communicator";
+import { chatIdAtom, titleAtom } from "src/store/jotai";
 
 interface ChatHistoryProps {
     history: ChatHistoryItem[];
@@ -15,8 +16,10 @@ interface ChatHistoryItem {
 }
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
+    const setChat_id = useSetAtom(chatIdAtom)
+    const title = useAtomValue(titleAtom)
 
-    const handleClearChats = async (chat_id: string) => {
+    const handleDeleteChat = async (chat_id: string) => {
         try {
             toast.loading('Clearing chats...', { id: 'clearing-chats' })
             await deleteSingleChat(chat_id)
@@ -30,21 +33,24 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
     return (
         <div className="py-2">
             {
-                history.map((item, index) => {
+                history
+                // remove last one if its title is 'No title'
+                .filter((item) => item.title != 'No title' )
+                // add new item at the end with title 'No title'
+                // .concat({ title: 'Running context', _id: '' })
+                .map((item, index) => {
                     return <div
                         key={index}
-                        className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 cursor-pointer transition-all duration-300 ease-in-out mb-2 ${chat_id == item._id && ' font-semibold'}`}
+                        className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 cursor-pointer transition-all duration-300 ease-in-out mb-2 ${chat_id == item._id && 'font-semibold'}`}
                         onClick={() => {
                             if (chat_id == item._id) {
                                 return
                             }
-                            localStorage.setItem('chat_id', item._id)
-                            window.location.reload()
+                            setChat_id(item._id)
                         }}
                     >
-
                         <p>
-                            {index + 1}. {item.title.slice(0, 20) + (item.title.length > 20 ? '...' : '')}
+                            {index + 1}. {item?.title?.slice(0, 20) + (item?.title?.length > 20 ? '...' : '')}
                         </p>
 
 
@@ -65,7 +71,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
                                         return
                                     }
 
-                                    handleClearChats(item._id)
+                                    handleDeleteChat(item._id)
                                 }}
                             >
                                 <IoMdTrash className="w-4 h-4" />
@@ -74,6 +80,8 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
                     </div>
                 })
+
+
             }
             {
                 history.length == 0 &&
