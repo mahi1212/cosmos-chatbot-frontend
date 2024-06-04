@@ -13,7 +13,7 @@ const Home: React.FC = () => {
         <div className="bg-slate-100 rounded-md sm:p-4 p-2 ">
             {/* for title of page using react Helmet*/}
             <Helmet>
-                <meta charSet="utf-8" />
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <title>Home - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>

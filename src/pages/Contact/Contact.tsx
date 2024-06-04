@@ -12,7 +12,7 @@ const Contact: React.FC = () => {
         <main className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
             {/* for title of page using react Helmet*/}
             <Helmet>
-                <meta charSet="utf-8" />
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <title>Contact - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>

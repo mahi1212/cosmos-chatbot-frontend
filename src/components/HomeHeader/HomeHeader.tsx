@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import logo from "src/assets/images/cosmo-ai.png"
+import logo from "src/assets/images/cosmos.svg"
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { GoPerson } from 'react-icons/go'
@@ -20,9 +20,9 @@ export default function HomeHeader() {
 
   return (
     <header className="bg-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <a href="#" className="-ms-3 p-1.5" onClick={() => navigate('')}>
-          <span className="sr-only">Your Company</span>
+      <nav className="mx-auto flex max-w-7xl items-center justify-between py-4" aria-label="Global">
+        <a href="#" className=" py-1.5" onClick={() => navigate('')}>
+          <span className="sr-only">Cosmos AI</span>
           <img className="h-8 w-auto rounded-full" src={logo} alt="logo" />
         </a>
         <div className="flex lg:hidden">

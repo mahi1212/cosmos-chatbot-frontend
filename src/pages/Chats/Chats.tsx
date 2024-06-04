@@ -1,15 +1,13 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { useAtom } from 'jotai'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import toast from 'react-hot-toast'
-import { IoMdTrash } from 'react-icons/io'
-import { MdModeEditOutline } from 'react-icons/md'
 import { RiRobot3Fill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
-import { deleteSingleChat, getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
-import { chatHistoryAtom, chatIdAtom, titleAtom } from 'src/store/jotai'
+import { getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
+import { chatIdAtom, titleAtom } from 'src/store/jotai'
 
 
 interface MessageInterface {
@@ -19,46 +17,44 @@ interface MessageInterface {
 
 const Chats: React.FC = () => {
     const auth = useAuth();
-    // console.log(auth)
     const navigate = useNavigate();
-
-    const [response, setResponse] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const handleChatResponse = async () => {
-        console.log(message)
-        if (message.length == 0) {
-            alert('Please enter a message')
-        }
-        setLoading(true)
-        try {
-            const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/wf/vectorSearch`, {
-                prompt: message,
-                project: import.meta.env.VITE_PROJECT_NAME,
-                n: 5,
-                openai_api_key: import.meta.env.VITE_OPENAI_API_KEY
-            })
+    // const [response, setResponse] = useState([])
+    // const handleChatResponse = async () => {
+    //     console.log(message)
+    //     if (message.length == 0) {
+    //         alert('Please enter a message')
+    //     }
+    //     setLoading(true)
+    //     try {
+    //         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/wf/vectorSearch`, {
+    //             prompt: message,
+    //             project: import.meta.env.VITE_PROJECT_NAME,
+    //             n: 5,
+    //             openai_api_key: import.meta.env.VITE_OPENAI_API_KEY
+    //         })
 
-            // console.log(res)
-            if (res) {
-                console.log('Here')
-                console.log(res.data.response.matching_texts)
-                const openAiResponse = await axios.post(`http://localhost:5000/chat-completion`, {
-                    mainPrompt: message,
-                    context: res.data.response.matching_texts
-                })
-                console.log('Here 2')
+    //         // console.log(res)
+    //         if (res) {
+    //             console.log('Here')
+    //             console.log(res.data.response.matching_texts)
+    //             const openAiResponse = await axios.post(`http://localhost:5000/chat-completion`, {
+    //                 mainPrompt: message,
+    //                 context: res.data.response.matching_texts
+    //             })
+    //             console.log('Here 2')
 
-                console.log(openAiResponse.data.text)
-                setResponse(openAiResponse.data.text)
-            }
-        } catch (e) {
-            console.log(e)
-        } finally {
-            setLoading(false)
-        }
+    //             console.log(openAiResponse.data.text)
+    //             setResponse(openAiResponse.data.text)
+    //         }
+    //     } catch (e) {
+    //         console.log(e)
+    //     } finally {
+    //         setLoading(false)
+    //     }
 
-    }
+    // }
 
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState<MessageInterface[]>([])
@@ -144,7 +140,7 @@ const Chats: React.FC = () => {
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
             {/* for title of page using react Helmet*/}
             <Helmet>
-                <meta charSet="utf-8" />
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <title>Chats - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>

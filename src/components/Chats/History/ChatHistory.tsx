@@ -73,6 +73,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
                                     handleDeleteChat(item._id)
                                 }}
+                                aria-label={'Delete chat'}
                             >
                                 <IoMdTrash className="w-4 h-4" />
                             </button>

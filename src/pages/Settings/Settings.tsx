@@ -75,7 +75,7 @@ export default function Settings() {
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             {/* for title of page using react Helmet*/}
             <Helmet>
-                <meta charSet="utf-8" />
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <title>Settings - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
