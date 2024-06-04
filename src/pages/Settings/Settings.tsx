@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "src/context/AuthContent"
 import { getSettings, updateSettings } from "src/helpers/api-communicator"
+import { Helmet } from "react-helmet";
 
 export default function Settings() {
     const auth = useAuth();
@@ -16,7 +17,7 @@ export default function Settings() {
     const [usage, setUsage] = useState<number>(0);
     const [frequencyPenalty, setFrequencyPenalty] = useState<number>(0);
     // const [topP, setTopP] = useState<number>(0.9);
-    console.log(auth)
+    // console.log(auth)
     useEffect(() => {
         async function fetchSettings() {
             // @ts-ignore
@@ -72,6 +73,13 @@ export default function Settings() {
 
     return (
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            {/* for title of page using react Helmet*/}
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Settings - Cosmos AI </title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
+
             <div className="space-y-8">
                 <div className="flex w-full  justify-between">
                     <div className="flex gap-4">

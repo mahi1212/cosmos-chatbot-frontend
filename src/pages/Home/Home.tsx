@@ -2,14 +2,22 @@ import { PiNewspaper } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { RiCustomerService2Line, RiRobot3Line } from "react-icons/ri";
 import Typewriter from 'typewriter-effect';
-import { useAuth } from "src/context/AuthContent";
+// import { useAuth } from "src/context/AuthContent";
+import { Helmet } from "react-helmet";
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
-    const user = useAuth();
-    console.log(user)
+    // const user = useAuth();
+    // console.log(user)
     return (
         <div className="bg-slate-100 rounded-md sm:p-4 p-2 ">
+            {/* for title of page using react Helmet*/}
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Home - Cosmos AI </title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
+
             <p className="flex items-center gap-2">
                 <RiCustomerService2Line />
                 Please Choose a service below

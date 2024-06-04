@@ -1,6 +1,7 @@
 import { InboxIcon, PhoneIcon } from "@heroicons/react/24/outline"
+import { Helmet } from "react-helmet"
 import toast from "react-hot-toast"
-import { BsGithub, BsTwitter } from "react-icons/bs"
+import { BsGithub } from "react-icons/bs"
 import { LiaLinkedin } from "react-icons/lia"
 import { Link } from "react-router-dom"
 
@@ -9,6 +10,12 @@ import { Link } from "react-router-dom"
 const Contact: React.FC = () => {
     return (
         <main className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
+            {/* for title of page using react Helmet*/}
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Contact - Cosmos AI </title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
                 <div className="space-y-6">
                     <div className="space-y-2">
@@ -78,7 +85,7 @@ const Contact: React.FC = () => {
                             <label htmlFor="message">Message</label>
                             <textarea id="message" placeholder="Enter your message" rows={5} className="border-2 p-2 rounded-md outline-none" />
                         </div>
-                        <button className="w-full border-2 py-2 bg-slate-800 text-white rounded-md" type="submit" 
+                        <button className="w-full border-2 py-2 bg-slate-800 text-white rounded-md" type="submit"
                             onClick={(e) => {
                                 e.preventDefault()
                                 toast.success('Use email to contact me.')

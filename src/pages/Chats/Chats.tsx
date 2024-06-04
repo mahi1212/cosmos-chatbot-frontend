@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useAtom } from 'jotai'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Helmet } from 'react-helmet'
 import toast from 'react-hot-toast'
 import { IoMdTrash } from 'react-icons/io'
 import { MdModeEditOutline } from 'react-icons/md'
@@ -141,6 +142,12 @@ const Chats: React.FC = () => {
 
     return (
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
+            {/* for title of page using react Helmet*/}
+            <Helmet>
+                <meta charSet="utf-8" />
+                <title>Chats - Cosmos AI </title>
+                <link rel="canonical" href="http://mysite.com/example" />
+            </Helmet>
             <div className='text-end flex justify-center py-2 sm:py-0'>
                 {
                     title && title !== "" && title !== "No title" && (
