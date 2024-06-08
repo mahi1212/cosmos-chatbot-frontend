@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
 import { chatIdAtom, titleAtom } from 'src/store/jotai'
-
+import { VscSend } from 'react-icons/vsc'
+import { BiLoader } from 'react-icons/bi'
 
 interface MessageInterface {
     role: 'system' | 'user' | 'assistant',
@@ -82,7 +83,7 @@ const Chats: React.FC = () => {
 
     const handleChatCompletion = async () => {
         // console.log('hit')
-
+        if(loading) return
 
         if (auth?.user == null) {
             toast.error('Please login to continue')
@@ -137,23 +138,23 @@ const Chats: React.FC = () => {
 
 
     return (
-        <div className='h-full bg-slate-100 sm:p-4 p-2 relative'>
+        <div className='h-full bg-slate-100 sm:p-4 p-2 relative rounded-md'>
             {/* for title of page using react Helmet*/}
             <Helmet>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
                 <title>Chats - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
-            <div className='text-end flex justify-center py-2 sm:py-0'>
+            <div className='text-end flex justify-center'>
                 {
                     title && title !== "" && title !== "No title" && (
-                        <p className='text-center border-b-2 w-full pb-4'>CONTEXT - {title.toUpperCase()}</p>
+                        <p className='text-center border-b-2 w-full pb-4 font-semibold'>CONTEXT - {title.toUpperCase()}</p>
                     )
                 }
             </div>
             <div className='max-h-[75vh] overflow-y-auto pb-10'>
                 {/* first chat question if chat is empty*/}
-                <div className='flex items-center gap-2'>
+                <div className='flex items-center gap-2 my-4'>
                     <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
                     <p className={`rounded-lg py-2 px-5 inline shadow-md bg-gray-100 dark:bg-gray-800 text-gray-100`}>
                         Hello sir, How can I assist you?
@@ -167,7 +168,7 @@ const Chats: React.FC = () => {
                                 <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
                             )}
 
-                            <div className={`rounded-lg py-2 px-5 inline shadow-md text-gray-100 sm:max-w-[70%] max-w-[80%] ${chat.role === 'user' ? ' bg-blue-700' : 'bg-gray-800'}`}>
+                            <div className={`rounded-lg py-2 px-5 inline shadow-md text-gray-100 sm:max-w-[80%] max-w-[72%] ${chat.role === 'user' ? ' bg-blue-700' : 'bg-gray-800'}`}>
                                 {chat.content}
                             </div>
                             {chat.role === 'user' && (
@@ -190,7 +191,7 @@ const Chats: React.FC = () => {
                 </div>
             </div>
 
-            <div className="absolute bottom-0 w-[97%] bg-slate-100">
+            <div className="absolute bottom-0 w-[97%] bg-slate-100 flex gap-2">
                 <input
                     type="text"
                     onChange={(e) => {
@@ -210,7 +211,15 @@ const Chats: React.FC = () => {
                     disabled={loading === true}
                     className={`relative mt-2 mb-[20px] w-[15%] p-[10px] outline-none border border-gray-300 bg-white rounded cursor-pointer ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
                 >
-                    {loading ? 'Loading..' : 'Send'}
+                    {loading ? <p className='flex justify-center items-center gap-2'>
+                        <span className='hidden md:block'>Loading..</span>
+                        <BiLoader className='w-4 h-4 mt-1 animate-spin' />
+                    </p> :
+                        <p className='flex justify-center items-center gap-2'>
+                            <span className='hidden md:block'>Send</span>
+                            <VscSend className='w-4 h-4 mt-1' />
+                        </p>
+                    }
                 </button>
             </div>
 

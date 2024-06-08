@@ -55,14 +55,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
 
                         <div className="flex items-center gap-2">
-                            <p className='p-2 bg-gray-200 rounded-full'
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    toast.error('Edit title feature !available yet')
-                                }}
-                            >
-                                <MdModeEditOutline className="w-4 h-4" />
-                            </p>
+                            
                             <button
                                 className={`p-2 bg-gray-200 rounded-full hover:bg-red-200 transition-all duration-300 ease-in-out ${chat_id == item._id && 'text-gray-400 cursor-not-allowed'}`}
                                 onClick={() => {

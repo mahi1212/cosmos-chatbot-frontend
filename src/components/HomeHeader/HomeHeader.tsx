@@ -5,7 +5,9 @@ import logo from "src/assets/images/cosmos.svg"
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { GoPerson } from 'react-icons/go'
-
+import { hideSidebarAtom } from 'src/store/jotai'
+import { useAtom } from 'jotai'
+import { SlNotebook } from "react-icons/sl";
 
 const navigation = [
   { name: 'Home', href: '/' },
@@ -16,16 +18,27 @@ export default function HomeHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const navigate = useNavigate()
   const user = useAuth()
+  const [hidden, setHidden] = useAtom(hideSidebarAtom)
 
 
   return (
-    <header className="bg-white">
+    <header className="bg-white pe-4">
       <nav className="mx-auto flex max-w-7xl items-center justify-between py-4" aria-label="Global">
         <a href="#" className=" py-1.5" onClick={() => navigate('')}>
           <span className="sr-only">Cosmos AI</span>
           <img className="h-8 w-auto rounded-full" src={logo} alt="logo" />
         </a>
-        <div className="flex lg:hidden">
+
+        <div className="flex md:hidden gap-3 items-center">
+          {
+            hidden && <button
+              className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              onClick={() => setHidden(false)}
+            >
+              <SlNotebook className='text-black' />
+            </button>
+          }
+
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -35,12 +48,20 @@ export default function HomeHeader() {
             <Bars3Icon className="h-6 w-6" aria-hidden="true" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12 items-center">
+        <div className="hidden md:flex md:gap-x-12 items-center">
           {navigation.map((item) => (
             <p key={item.name} onClick={() => navigate(item.href)} className="cursor-pointer text-sm font-semibold leading-6 text-gray-900">
               {item.name}
             </p>
           ))}
+          {
+            hidden && <p
+              className="cursor-pointer text-sm font-semibold leading-6 text-gray-900"
+              onClick={() => setHidden(false)}
+            >
+              History
+            </p>
+          }
           {/* login button */}
           {
             user?.isLoggedin === true ?
@@ -74,7 +95,7 @@ export default function HomeHeader() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <XMarkIcon className="h-6 w-6 me-3" aria-hidden="true" />
             </button>
           </div>
           <div className="mt-6 flow-root">
