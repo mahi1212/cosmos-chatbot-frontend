@@ -17,8 +17,8 @@ interface ChatHistoryItem {
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
     const setChat_id = useSetAtom(chatIdAtom)
-    const title = useAtomValue(titleAtom)
-
+    const title = useAtomValue(titleAtom)   
+    console.log(history)
     const handleDeleteChat = async (chat_id: string) => {
         try {
             toast.loading('Clearing chats...', { id: 'clearing-chats' })
@@ -32,6 +32,19 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
     return (
         <div className="py-2">
+            {/* if history is blank */}
+             {/* if history has one item and its title is 'No title */}
+            {
+                history.length == 0 || history.length == 1 && history[0].title == 'No title' &&
+                <p
+                    className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2`}
+                >
+                    No chats available
+                    <PiSmileySadLight />
+                </p>
+            }
+           
+            {/* map hisotry */}
             {
                 history
                 // remove last one if its title is 'No title'
@@ -77,15 +90,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
 
             }
-            {
-                history.length == 0 &&
-                <p
-                    className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2`}
-                >
-                    No chats available
-                    <PiSmileySadLight />
-                </p>
-            }
+            
         </div>
     )
 }

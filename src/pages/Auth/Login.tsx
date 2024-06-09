@@ -34,7 +34,7 @@ const Login = () => {
             }else{
                 await auth?.signup(name, email, password)
             }
-
+            navigate('/')
             toast.success('Authenticaiton successful')
         }catch(e: any) {
             console.log(e.response.data.message)
@@ -88,7 +88,7 @@ const Login = () => {
                                 className='text-center cursor-pointer'
                                 onClick={() => setAlreadyHaveAccount(false)}
                             >
-                                Don't have an account?
+                                Don't have an account? Signup
                             </p>
 
                     }

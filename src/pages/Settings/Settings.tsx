@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "src/context/AuthContent"
 import { getSettings, updateSettings } from "src/helpers/api-communicator"
 import { Helmet } from "react-helmet";
+import { IoIosLogOut } from "react-icons/io";
+import { BsSave2Fill } from "react-icons/bs";
 
 export default function Settings() {
     const auth = useAuth();
@@ -81,31 +83,9 @@ export default function Settings() {
             </Helmet>
 
             <div className="space-y-8">
-                <div className="flex w-full  justify-between">
-                    <div className="flex gap-4">
-                        <h1 className="text-3xl font-bold">Settings</h1>
-                        <p className="mt-2 text-gray-500 ">- Customize your AI chatbot settings.</p>
-                    </div>
-                    <div className="flex items-center">
-                        {
-                            auth?.isLoggedin === true &&
-                            <button
-                                onClick={auth.logout}
-                                className="bg-black hover:bg-white hover:border-black border-2 outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
-                                type="submit"
-                            >
-                                Logout
-                            </button>
-                        }
-
-                        <button
-                            onClick={handleUpdateSetting}
-                            className="bg-black hover:bg-white hover:border-black border-2 outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
-                            type="submit"
-                        >
-                            Save Settings
-                        </button>
-                    </div>
+                <div className="flex gap-4">
+                    <h1 className="text-3xl font-bold">Settings</h1>
+                    <p className="mt-2 text-gray-500 ">- Customize your AI chatbot settings.</p>
                 </div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <div className="sm:col-span-3">
@@ -223,7 +203,28 @@ export default function Settings() {
                         </p>
                     </div> */}
                 </div>
+                <div className="flex items-center justify-between w-full gap-4">
+                    {
+                        auth?.isLoggedin === true &&
+                        <button
+                            onClick={auth.logout}
+                            className="bg-black w-full flex justify-center items-center gap-2 hover:bg-white hover:border-black border-[1px] outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
+                            type="submit"
+                        >
+                            Logout
+                            <IoIosLogOut className="w-5 h-5" />
+                        </button>
+                    }
 
+                    <button
+                        onClick={handleUpdateSetting}
+                        className="bg-black w-full flex justify-center items-center gap-2 hover:bg-white hover:border-black border-[1px] outline-none hover:text-black transition text-white font-medidarkum py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 "
+                        type="submit"
+                    >
+                        Save Settings
+                        <BsSave2Fill className="w-4 h-4" />
+                    </button>
+                </div>
             </div>
         </div>
     )

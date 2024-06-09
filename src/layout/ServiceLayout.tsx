@@ -42,7 +42,7 @@ const ServiceLayout: React.FC = () => {
 
     return (
         <div className="max-w-7xl mx-auto sm:px-3">
-            <div className="grid grid-cols-12 min-h-[90vh] sm:min-h-[85vh] h-full">
+            <div className="grid grid-cols-12 min-h-[90vh] sm:min-h-[85vh] h-full gap-2">
                 <div className={` ${hidden ? 'fixed top-0 left-0 w-full h-full z-10 bg-white hidden' : 'col-span-12 lg:col-span-3'}`}>
                     <Sidebar />
                 </div>
