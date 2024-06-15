@@ -24,7 +24,7 @@ const Chats: React.FC = () => {
     const [percentage, setPercentage] = useAtom(usagePercentageAtom)
     const usage = useAtomValue(usageAtom)
     const limit = useAtomValue(limitAtom)
-    console.log(percentage, usage)
+    // console.log(percentage, usage)
 
     useEffect(() => {
         setPercentage((usage / limit) * 100);

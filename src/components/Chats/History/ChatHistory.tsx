@@ -4,7 +4,7 @@ import { IoMdTrash } from "react-icons/io";
 import { MdModeEditOutline } from "react-icons/md";
 import { PiSmileySadLight } from "react-icons/pi";
 import { deleteSingleChat } from "src/helpers/api-communicator";
-import { chatIdAtom, titleAtom } from "src/store/jotai";
+import { chatIdAtom, hideSidebarAtom, titleAtom } from "src/store/jotai";
 
 interface ChatHistoryProps {
     history: ChatHistoryItem[];
@@ -18,7 +18,10 @@ interface ChatHistoryItem {
 const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
     const setChat_id = useSetAtom(chatIdAtom)
     const [title, setTitle] = useAtom(titleAtom)
-    console.log(history)
+    const [hidden, setHidden] = useAtom(hideSidebarAtom)
+
+    
+    // console.log(history)
     const handleDeleteChat = async (chat_id: string) => {
         try {
             toast.loading('Clearing chats...', { id: 'clearing-chats' })
@@ -60,6 +63,10 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
                                     return
                                 }
                                 setChat_id(item._id)
+                                // if window width is less than 1024px then hide sidebar
+                                if (window.innerWidth < 1024) {
+                                    setHidden(true)
+                                }
                             }}
                         >
                             <p>
