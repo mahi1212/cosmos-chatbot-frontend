@@ -168,25 +168,49 @@ const Chats: React.FC = () => {
             toast.success('Copied to clipboard')
         });
     };
-
-    const isCodeBlock = (content: string) => {
-        const codeBlockRegex = /^```[\s\S]*```$/;
-        return codeBlockRegex.test(content.trim());
-    }
-
+    
     const formatContent = (content: string) => {
-        if (isCodeBlock(content)) {
-            // Strip the leading and trailing triple backticks
-            const codeContent = content.replace(/^```/, '').replace(/```$/, '');
-            return (
-                <pre className="bg-gray-900 p-3 my-2 rounded-md overflow-x-auto">
+        const parts = content.split(/(```[\s\S]*?```)/g);
+        return parts.map((part, index) => {
+            if (part.startsWith('```') && part.endsWith('```')) {
+                const codeContent = part.replace(/^```/, '').replace(/```$/, '');
+                return (
+                    <CodeBlock key={index} codeContent={codeContent} />
+                );
+            } else {
+                return <p key={index}>{part}</p>;
+            }
+        });
+    };
+    
+    const CodeBlock = ({ codeContent }: {codeContent: string}) => {
+        const [copied, setCopied] = useState(false);
+    
+        const handleCopy = () => {
+            navigator.clipboard.writeText(codeContent)
+                .then(() => {
+                    setCopied(true)
+                    toast.success('Copied code to clipboard')
+                })
+                .catch(err => console.error('Failed to copy text:', err));
+            
+            setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
+        };
+    
+        return (
+            <div className="relative bg-gray-900 p-3 my-2 rounded-md overflow-x-auto">
+                <pre>
                     <code>{codeContent}</code>
                 </pre>
-            );
-        } else {
-            return <p>{content}</p>;
-        }
-    }
+                <button
+                    onClick={handleCopy}
+                    className="absolute top-2 right-2 bg-gray-700 text-white py-1 px-2 rounded"
+                >
+                    {copied ? 'Copied!' : 'Copy'}
+                </button>
+            </div>
+        );
+    };
 
     return (
         <div className='h-full bg-slate-100 sm:p-4 p-2 relative rounded-md'>
