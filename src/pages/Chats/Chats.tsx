@@ -7,10 +7,11 @@ import { RiRobot3Fill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
-import { chatIdAtom, limitAtom, titleAtom, usageAtom, usagePercentageAtom } from 'src/store/jotai'
+import { chatIdAtom, deleteModalAtom, limitAtom, titleAtom, usageAtom, usagePercentageAtom } from 'src/store/jotai'
 import { VscSend } from 'react-icons/vsc'
 import { BiLoader } from 'react-icons/bi'
 import { IoCopyOutline } from 'react-icons/io5'
+import DeleteModal from 'src/components/Chats/DeleteModal/DeleteModal'
 
 interface MessageInterface {
     role: 'system' | 'user' | 'assistant',
@@ -25,6 +26,7 @@ const Chats: React.FC = () => {
     const usage = useAtomValue(usageAtom)
     const limit = useAtomValue(limitAtom)
     // console.log(percentage, usage)
+    const deleteModal = useAtomValue(deleteModalAtom)
 
     useEffect(() => {
         setPercentage((usage / limit) * 100);
@@ -67,6 +69,7 @@ const Chats: React.FC = () => {
 
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState<MessageInterface[]>([])
+    // console.log(chats)
     const [title, setTitle] = useAtom(titleAtom)
     const [chat_id, setChat_id] = useAtom(chatIdAtom)
     const chatContainerRef = useRef<null | HTMLDivElement>(null)
@@ -184,6 +187,9 @@ const Chats: React.FC = () => {
                 <title>Chats - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
+            {
+                deleteModal && <DeleteModal id={chat_id} />
+            }
             <div className='text-end flex justify-center'>
                 {
                     title && title !== "" && title !== "No title" && (

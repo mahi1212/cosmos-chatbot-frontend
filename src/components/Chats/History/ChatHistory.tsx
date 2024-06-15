@@ -1,10 +1,7 @@
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import toast from "react-hot-toast";
+import { useSetAtom } from "jotai";
 import { IoMdTrash } from "react-icons/io";
-import { MdModeEditOutline } from "react-icons/md";
 import { PiSmileySadLight } from "react-icons/pi";
-import { deleteSingleChat } from "src/helpers/api-communicator";
-import { chatIdAtom, hideSidebarAtom, titleAtom } from "src/store/jotai";
+import { chatIdAtom, deleteModalAtom, hideSidebarAtom } from "src/store/jotai";
 
 interface ChatHistoryProps {
     history: ChatHistoryItem[];
@@ -17,21 +14,11 @@ interface ChatHistoryItem {
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
     const setChat_id = useSetAtom(chatIdAtom)
-    const [title, setTitle] = useAtom(titleAtom)
-    const [hidden, setHidden] = useAtom(hideSidebarAtom)
-
+    const setHidden = useSetAtom(hideSidebarAtom)
+    const setDeleteModal = useSetAtom(deleteModalAtom)
     
     // console.log(history)
-    const handleDeleteChat = async (chat_id: string) => {
-        try {
-            toast.loading('Clearing chats...', { id: 'clearing-chats' })
-            await deleteSingleChat(chat_id)
-            toast.success('Chats cleared successfully', { id: 'clearing-chats' })
-        } catch (e) {
-            console.log(e)
-            toast.error('Unable to clear chats')
-        }
-    }
+
 
     return (
         <div className="py-2">
@@ -80,13 +67,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
                                 <button
                                     className={`p-2 bg-gray-200 rounded-full hover:bg-red-200 transition-all duration-300 ease-in-out`}
                                     onClick={() => {
-                                        // if (chat_id == item._id) {
-                                        //     toast.error('Active chat cannot be deleted')
-                                        //     return
-                                        // }
-                                        handleDeleteChat(item._id)
-                                        setChat_id('')
-                                        setTitle('')
+                                        setDeleteModal(true)
                                     }}
                                     aria-label={'Delete chat'}
                                 >
