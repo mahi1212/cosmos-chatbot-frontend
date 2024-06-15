@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import { useAtom } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import toast from 'react-hot-toast'
@@ -7,7 +7,7 @@ import { RiRobot3Fill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
-import { chatIdAtom, titleAtom } from 'src/store/jotai'
+import { chatIdAtom, limitAtom, titleAtom, usageAtom, usagePercentageAtom } from 'src/store/jotai'
 import { VscSend } from 'react-icons/vsc'
 import { BiLoader } from 'react-icons/bi'
 import { IoCopyOutline } from 'react-icons/io5'
@@ -21,7 +21,14 @@ const Chats: React.FC = () => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false)
+    const [percentage, setPercentage] = useAtom(usagePercentageAtom)
+    const usage = useAtomValue(usageAtom)
+    const limit = useAtomValue(limitAtom)
+    console.log(percentage, usage)
 
+    useEffect(() => {
+        setPercentage((usage / limit) * 100);
+    }, [usage]);
     // const [response, setResponse] = useState([])
     // const handleChatResponse = async () => {
     //     console.log(message)
@@ -97,6 +104,12 @@ const Chats: React.FC = () => {
             toast.error('Please enter a message')
             return;
         }
+
+        if (percentage >= 100) {
+            toast.error('You have reached the maximum usage limit. Please upgrade your plan')
+            return
+        }
+
         setLoading(true);
 
         if (chats.length == 0) {
@@ -229,6 +242,7 @@ const Chats: React.FC = () => {
 
             <div className="absolute bottom-0 w-[97%] bg-slate-100 flex gap-2">
                 <input
+                    disabled={loading}
                     type="text"
                     onChange={(e) => {
                         setMessage(e.target.value)

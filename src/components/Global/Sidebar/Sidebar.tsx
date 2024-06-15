@@ -34,7 +34,7 @@ const Sidebar: React.FC = () => {
 
 
   return (
-    <div className={`bg-slate-200 h-full relative p-3 pb-14 rounded-md`}>
+    <div className={`bg-slate-200 h-full relative p-3 pb-14 rounded-md min-h-[88vh]`}>
       {/* header */}
       <div className="flex gap-2 items-center justify-between mb-2">
         <div className="flex items-center gap-2">
@@ -61,12 +61,7 @@ const Sidebar: React.FC = () => {
 
           {/* collapse button */}
           {
-            hidden === true ? <button
-              className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
-              onClick={() => setHidden(false)}
-            >
-              <span>Show Sidebar</span>
-            </button> : <TbLayoutSidebarLeftCollapseFilled
+            hidden === false && <TbLayoutSidebarLeftCollapseFilled
               className="text-lg cursor-pointer w-6 h-6 transition-all duration-300 ease-in-out"
               onClick={() => setHidden(true)}
             />

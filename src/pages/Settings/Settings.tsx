@@ -7,19 +7,22 @@ import { getSettings, updateSettings } from "src/helpers/api-communicator"
 import { Helmet } from "react-helmet";
 import { IoIosLogOut } from "react-icons/io";
 import { BsSave2Fill } from "react-icons/bs";
+import { useAtom } from "jotai";
+import { limitAtom, usageAtom, usagePercentageAtom } from "src/store/jotai";
 
 export default function Settings() {
     const auth = useAuth();
     const navigate = useNavigate();
+    const [limit, setLimit] = useAtom(limitAtom);
     const [settings, setSettings] = useState<any>({});
     const [systemPrompt, setSystemPrompt] = useState<string | null>(null);
     const [model, setModel] = useState<string | null>(null);
     const [temperature, setTemperature] = useState<number>(0);
     const [maxTokens, setMaxTokens] = useState<number>(0);
-    const [usage, setUsage] = useState<number>(0);
+    const [usage, setUsage] = useAtom<number>(usageAtom);
     const [frequencyPenalty, setFrequencyPenalty] = useState<number>(0);
     // const [topP, setTopP] = useState<number>(0.9);
-    // console.log(auth)
+    // console.log(usage)
     useEffect(() => {
         async function fetchSettings() {
             // @ts-ignore
@@ -73,6 +76,12 @@ export default function Settings() {
         }
     };
 
+    const [percentage, setPercentage] = useAtom(usagePercentageAtom)
+
+    useEffect(() => {
+        setPercentage((usage / limit) * 100);
+    }, [usage]);
+
     return (
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             {/* for title of page using react Helmet*/}
@@ -96,7 +105,7 @@ export default function Settings() {
                             <textarea
                                 onChange={(e) => setSystemPrompt(e.target.value)}
                                 value={systemPrompt || ''}
-                                className="block w-full rounded-md border-2 outline-none p-1 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm "
+                                className="block w-full rounded-md border-2 outline-none px-3 py-3 border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm "
                                 id="system-prompt"
                                 name="system-prompt"
                                 placeholder="Enter your system prompt..."
@@ -109,10 +118,10 @@ export default function Settings() {
                     </div>
                     <div className="sm:col-span-3">
                         <label className="block text-sm font-medium text-gray-700 " htmlFor="file-upload">
-                            Upload File
+                            Token Usage
                         </label>
-                        <div className="mt-1 flex justify-center rounded-md border-2 outline-none border-dashed border-gray-300 px-6 pt-5 pb-6 ">
-                            <div className="space-y-1 text-center">
+                        <div className="mt-1 rounded-md border-2 outline-none border-dashed border-gray-300 px-6 py-[12px] ">
+                            {/* <div className="space-y-1 text-center">
                                 <CloudUploadIcon className="mx-auto h-12 w-12 text-gray-400" />
                                 <div className="flex text-sm text-gray-600 ">
                                     <label
@@ -125,7 +134,18 @@ export default function Settings() {
                                     <p className="pl-1">or drag and drop</p>
                                 </div>
                                 <p className="text-xs text-gray-500 ">PNG, JPG, GIF up to 10MB</p>
+                            </div> */}
+                            <div className="flex justify-between">
+                                <p>TOKEN USED: {usage >= limit ? limit : usage}</p>
+                                <p>YOUR LIMIT: {limit} </p>
                             </div>
+                            <p className="my-2 relative flex flex-col space-y-2">
+                                <p> You have reached <span className="font-bold">{Number(percentage.toFixed(2)) >= 100 ? 'maximum unit' : percentage.toFixed(2) + "%" }</span> of your token limit.</p>
+                                {/* make percentage of limit and usage token */}
+                                <div className="h-2 w-full bg-gray-300 rounded-md overflow-hidden">
+                                    <div className="h-2 bg-indigo-500 rounded-md" style={{ width: `${percentage.toFixed(2)}%` }}></div>
+                                </div>
+                            </p>
                         </div>
                     </div>
                     {/* model */}
@@ -227,26 +247,5 @@ export default function Settings() {
                 </div>
             </div>
         </div>
-    )
-}
-
-function CloudUploadIcon(props: any) {
-    return (
-        <svg
-            {...props}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" />
-            <path d="M12 12v9" />
-            <path d="m16 16-4-4-4 4" />
-        </svg>
     )
 }
