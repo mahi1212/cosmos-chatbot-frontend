@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet'
 import toast from 'react-hot-toast'
@@ -7,7 +7,7 @@ import { RiRobot3Fill } from 'react-icons/ri'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { getSingleChat, sendChatRequest } from 'src/helpers/api-communicator'
-import { chatIdAtom, deleteModalAtom, limitAtom, titleAtom, usageAtom, usagePercentageAtom } from 'src/store/jotai'
+import { chatIdAtom, checkNewChatArrivedAtom, deleteModalAtom, limitAtom, titleAtom, usageAtom, usagePercentageAtom } from 'src/store/jotai'
 import { VscSend } from 'react-icons/vsc'
 import { BiLoader } from 'react-icons/bi'
 import { IoCopyOutline } from 'react-icons/io5'
@@ -27,6 +27,7 @@ const Chats: React.FC = () => {
     const limit = useAtomValue(limitAtom)
     // console.log(percentage, usage)
     const deleteModal = useAtomValue(deleteModalAtom)
+    const setCheckNewChatArrived = useSetAtom(checkNewChatArrivedAtom)
 
     useEffect(() => {
         setPercentage((usage / limit) * 100);
@@ -126,11 +127,19 @@ const Chats: React.FC = () => {
         setChats((prev) => [...prev, newMessage]);
         setMessage('');
 
-        // Simulate a response from the assistant (for demonstration purposes)
+        // Simulate a response from the assistant (for demonstration p  urposes)
         const chatData = await sendChatRequest(message, chat_id);
         setChats([...chatData.response]);
         setLoading(false);
     };
+    // console.log(chats.length)
+    useEffect(() => {
+        if(chats.length === 2){
+            setCheckNewChatArrived(true)
+        }else{
+            setCheckNewChatArrived(false)
+        }
+    }, [chats.length])
 
     useLayoutEffect(() => {
         if (auth?.isLoggedin && auth?.user) {
@@ -246,7 +255,7 @@ const Chats: React.FC = () => {
                 </div>
             </div>
 
-            <div className="absolute bottom-0 w-[97%] bg-slate-100 flex gap-2">
+            <div className="absolute -bottom-2 w-[97%] bg-slate-100 flex gap-2">
                 <input
                     disabled={loading}
                     type="text"
@@ -272,7 +281,7 @@ const Chats: React.FC = () => {
                 <button
                     onClick={handleChatCompletion}
                     disabled={loading === true}
-                    className={`relative mt-2 mb-[20px] w-[15%] p-[10px] outline-none border border-gray-300 bg-white rounded cursor-pointer ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+                    className={`relative mt-2 mb-[20px] w-[15%] p-[10px] outline-none border border-gray-300 rounded transition ${message.length == 0 ? 'bg-slate-100 cursor-not-allowed text-gray-500' : 'bg-white cursor-pointer'}  ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
                 >
                     {loading ? <p className='flex justify-center items-center gap-2'>
                         <span className='hidden md:block'>Loading..</span>

@@ -8,7 +8,7 @@ import SettingOption from "./SettingOption"
 import { useEffect } from "react"
 import { getAllChats } from "src/helpers/api-communicator"
 import { useAtom } from "jotai"
-import { chatHistoryAtom, chatIdAtom, hideSidebarAtom, titleAtom } from "src/store/jotai"
+import { chatHistoryAtom, chatIdAtom, checkNewChatArrivedAtom, hideSidebarAtom, titleAtom } from "src/store/jotai"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 
 
@@ -23,13 +23,14 @@ const Sidebar: React.FC = () => {
 
   const [chat_id, setChat_id] = useAtom(chatIdAtom)
   const [title, setTitle] = useAtom(titleAtom)
+  const checkNewChatArrived = useAtom(checkNewChatArrivedAtom)
   // console.log(title)
   // console.log(history)
   useEffect(() => {
     getAllChats().then((data) => {
       setHistory(data.history)
     })
-  }, [chat_id, title])
+  }, [chat_id, title, checkNewChatArrived])
 
 
 
