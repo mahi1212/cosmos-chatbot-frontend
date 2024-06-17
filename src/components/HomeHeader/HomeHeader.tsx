@@ -5,7 +5,7 @@ import logo from "src/assets/images/cosmos.svg"
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { GoPerson } from 'react-icons/go'
-import { hideSidebarAtom } from 'src/store/jotai'
+import { darkMoodAtom, hideSidebarAtom } from 'src/store/jotai'
 import { useAtom } from 'jotai'
 import { SlNotebook } from "react-icons/sl";
 
@@ -19,10 +19,10 @@ export default function HomeHeader() {
   const navigate = useNavigate()
   const user = useAuth()
   const [hidden, setHidden] = useAtom(hideSidebarAtom)
-
-
+  const [darkMode, setDarkMode] = useAtom(darkMoodAtom)
+  // console.log('darkMode', darkMode)
   return (
-    <header className="bg-white pe-4">
+    <header className="pe-4 text-gray-700 dark:text-gray-200">
       <nav className="mx-auto flex max-w-7xl items-center justify-between py-4" aria-label="Global">
         <a href="#" className=" py-1.5" onClick={() => navigate('')}>
           <span className="sr-only">Cosmos AI</span>
@@ -32,16 +32,16 @@ export default function HomeHeader() {
         <div className="flex md:hidden gap-3 items-center">
           {
             hidden && <button
-              className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+              className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 "
               onClick={() => setHidden(false)}
             >
-              <SlNotebook className='text-black' />
+              <SlNotebook className='' />
             </button>
           }
 
           <button
             type="button"
-            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
+            className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"
             onClick={() => setMobileMenuOpen(true)}
           >
             <span className="sr-only">Open main menu</span>
@@ -50,27 +50,57 @@ export default function HomeHeader() {
         </div>
         <div className="hidden md:flex md:gap-x-12 items-center">
           {navigation.map((item) => (
-            <p key={item.name} onClick={() => navigate(item.href)} className="cursor-pointer text-sm font-semibold leading-6 text-gray-900">
+            <p key={item.name} onClick={() => navigate(item.href)} className="cursor-pointer text-sm font-semibold leading-6">
               {item.name}
             </p>
           ))}
           {
             hidden && <p
-              className="cursor-pointer text-sm font-semibold leading-6 text-gray-900"
+              className="cursor-pointer text-sm font-semibold leading-6"
               onClick={() => setHidden(false)}
             >
               History
             </p>
           }
+          <div className="flex flex-col justify-center ml-3">
+            <input
+              type="checkbox" name="light-switch" className="light-switch sr-only"
+              onClick={() => {
+                setDarkMode(!darkMode)
+              }}
+            />
+            <label className="relative cursor-pointer p-2">
+              {
+                darkMode ? <svg
+                  onClick={() => {
+                    setDarkMode(!darkMode)
+                  }}
+                  width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <path className="fill-slate-300" d="M7 0h2v2H7zM12.88 1.637l1.414 1.415-1.415 1.413-1.413-1.414zM14 7h2v2h-2zM12.95 14.433l-1.414-1.413 1.413-1.415 1.415 1.414zM7 14h2v2H7zM2.98 14.364l-1.413-1.415 1.414-1.414 1.414 1.415zM0 7h2v2H0zM3.05 1.706 4.463 3.12 3.05 4.535 1.636 3.12z" />
+                  <path className="fill-slate-400" d="M8 4C5.8 4 4 5.8 4 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4Z" />
+                </svg> :
+                  <svg
+                    onClick={() => {
+                      setDarkMode(!darkMode)
+                    }}
+                    width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                    <path className="fill-slate-400" d="M6.2 1C3.2 1.8 1 4.6 1 7.9 1 11.8 4.2 15 8.1 15c3.3 0 6-2.2 6.9-5.2C9.7 11.2 4.8 6.3 6.2 1Z" />
+                    <path className="fill-slate-500" d="M12.5 5a.625.625 0 0 1-.625-.625 1.252 1.252 0 0 0-1.25-1.25.625.625 0 1 1 0-1.25 1.252 1.252 0 0 0 1.25-1.25.625.625 0 1 1 1.25 0c.001.69.56 1.249 1.25 1.25a.625.625 0 1 1 0 1.25c-.69.001-1.249.56-1.25 1.25A.625.625 0 0 1 12.5 5Z" />
+                  </svg>
+              }
+
+              <span className="sr-only">Switch to light / dark version</span>
+            </label>
+          </div>
           {/* login button */}
           {
             user?.isLoggedin === true ?
               <p
-                className="cursor-pointer border-2 p-2 rounded-lg hover:bg-slate-200"
+                className="cursor-pointer border-2 p-[6px] rounded-lg dark:border-gray-400 hover:bg-slate-200 dark:hover:bg-gray-300 transition dark:text-white text-black hover:text-black"
                 onClick={() => navigate('settings')}
               >
                 <GoPerson />
-              </p> : <p onClick={() => navigate('login')} className="cursor-pointer text-sm font-semibold leading-6 text-gray-900">
+              </p> : <p onClick={() => navigate('login')} className="cursor-pointer text-sm font-semibold leading-6">
                 Log in <span aria-hidden="true">&rarr;</span>
               </p>
           }
@@ -91,7 +121,7 @@ export default function HomeHeader() {
             </a>
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 rounded-md p-2.5"
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
@@ -106,7 +136,7 @@ export default function HomeHeader() {
                     key={item.name}
                     onClick={() => navigate(item.href)}
                     // href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 hover:bg-gray-50"
                   >
                     {item.name}
                   </p>
@@ -115,7 +145,7 @@ export default function HomeHeader() {
               <div className="py-6">
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 hover:bg-gray-50"
                 >
                   Log in
                 </a>

@@ -3,7 +3,7 @@ import { useAtom } from "jotai"
 import { useEffect, useState } from "react"
 import { Outlet } from "react-router-dom"
 import Sidebar from "src/components/Global/Sidebar/Sidebar"
-import { expendAtom, hideSidebarAtom } from "src/store/jotai"
+import { hideSidebarAtom } from "src/store/jotai"
 
 const ServiceLayout: React.FC = () => {
     const [hidden, setHidden] = useAtom(hideSidebarAtom);
