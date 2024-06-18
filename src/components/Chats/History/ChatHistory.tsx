@@ -65,7 +65,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
                                 {/* delete a chat */}
                                 <button
-                                    className={`p-2 bg-gray-200 dark:bg-neutral-700 rounded-full hover:bg-red-200 dark:hover:bg-green-800 transition-all ease-in-out`}
+                                    className={`p-2 bg-gray-200 dark:bg-neutral-700 rounded-full hover:bg-red-200 dark:hover:bg-blue-800 transition-all ease-in-out`}
                                     onClick={() => {
                                         setDeleteModal(true)
                                     }}

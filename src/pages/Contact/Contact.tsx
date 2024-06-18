@@ -41,7 +41,7 @@ const Contact: React.FC = () => {
     };
 
     return (
-        <main className="container mx-auto px-4 py-12 md:px-6 lg:py-16">
+        <main className="container mx-auto px-2 py-12 lg:py-16">
             {/* for title of page using react Helmet*/}
             <Helmet>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -120,7 +120,7 @@ const Contact: React.FC = () => {
                         <button className="w-full border-2 border-white dark:border-gray-400 py-2 bg-slate-800 text-white dark:text-gray-300 rounded-md flex items-center justify-center gap-2 hover:bg-slate-900 transition" type="submit">
                             SEND MESSAGE
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
                             </svg>
 
                         </button>

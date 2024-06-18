@@ -24,7 +24,7 @@ const Home: React.FC = () => {
             </p>
             <div className="flex justify-between items-center cursor-pointer gap-4 mt-6 flex-col md:flex-row " >
                 {/* rewriter assitant */}
-                <div
+                {/* <div
                     className="border-2 p-4 flex flex-col gap-3 rounded-md border-slate-300 dark:border-gray-600 hover:bg-slate-200 dark:hover:bg-gray-800 w-full transition"
                     onClick={() => {
                         navigate('rewrite')
@@ -43,8 +43,8 @@ const Home: React.FC = () => {
 
                         }}
                     />
-                </div>
-
+                </div> */}
+                
                 {/* personal assitant */}
                 <div
                     className="border-2 p-4 flex flex-col gap-3 rounded-md border-slate-300 dark:border-gray-600 hover:bg-slate-200 dark:hover:bg-gray-800 w-full transition"

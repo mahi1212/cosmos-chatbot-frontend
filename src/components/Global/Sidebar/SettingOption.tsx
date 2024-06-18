@@ -17,8 +17,8 @@ const SettingOption = () => {
                     <span className="sr-only">Send</span>
                 </button>
                 <div >
-                    <p className="uppercase font-bold text-white dark:text-gray-300">Go to setting</p>
-                    <p className="-mt-[2px] text-white dark:text-gray-300">Explore all options</p>
+                    <p className="uppercase font-bold text-black dark:text-gray-300">Go to setting</p>
+                    <p className="-mt-[2px] text-black dark:text-gray-300">Explore all options</p>
                 </div>
 
             </div>

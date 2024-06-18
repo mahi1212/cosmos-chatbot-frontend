@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 
 const Login = () => {
-    const auth = useAuth() 
+    const auth = useAuth()
     const [alreadyHaveAccount, setAlreadyHaveAccount] = useState(true)
     const navigate = useNavigate();
     // console.log(auth)
@@ -27,16 +27,16 @@ const Login = () => {
         const email = formData.get('email') as string;
         const password = formData.get('password') as string;
 
-        try{
+        try {
             // toast.loading('Please wait...')
-            if(alreadyHaveAccount){
+            if (alreadyHaveAccount) {
                 await auth?.login(email, password)
-            }else{
+            } else {
                 await auth?.signup(name, email, password)
             }
             navigate('/')
             toast.success('Authenticaiton successful')
-        }catch(e: any) {
+        } catch (e: any) {
             console.log(e.response.data.message)
             toast.error('Login failed')
         }
@@ -48,36 +48,36 @@ const Login = () => {
     }
 
     return (
-        <div className="flex min-h-[75dvh] flex-col items-center justify-center bg-slate-100 ">
-            <div className="mx-auto w-full max-w-md rounded-xl bg-white p-6 shadow-lg ">
+        <div className="flex min-h-[75dvh] flex-col items-center justify-center">
+            <div className="mx-auto w-full max-w-md rounded-xl bg-white dark:bg-neutral-700 p-6 shadow-lg ">
                 <div className="mb-8 flex items-center justify-center">
-                    <BoltIcon className="h-12 w-12 text-gray-500 " />
-                    <h1 className="ml-2 text-3xl font-bold tracking-tight text-gray-900 ">COSMOS AI</h1>
+                    <BoltIcon className="h-12 w-12 text-gray-500 dark:text-gray-200" />
+                    <h1 className="ml-2 text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-200">COSMOS AI</h1>
                 </div>
                 <form className="space-y-4" onSubmit={handleFormSubmit}>
                     {
                         !alreadyHaveAccount &&
                         <div>
-                            <p className='mb-2 ms-1'>Name</p>
+                            <p className='mb-2 ms-1 text-gray-800 dark:text-gray-200'>Name</p>
                             <input id="name" name='name' placeholder="Enter your name" type="text" className='w-full border-2 rounded-full px-4 py-1 outline-none' />
                         </div>
                     }
                     <div>
-                        <p className='mb-2 ms-1'>Email</p>
+                        <p className='mb-2 ms-1 text-gray-800 dark:text-gray-200'>Email</p>
                         <input id="email" name='email' placeholder="Enter your email" type="email" className='w-full border-2 rounded-full px-4 py-1 outline-none' />
                     </div>
                     <div>
-                        <p className='mb-2 ms-1'>Password</p>
+                        <p className='mb-2 ms-1 text-gray-800 dark:text-gray-200'>Password</p>
                         <input id="password" name='password' placeholder="Enter your password" type="password" className='w-full border-2 rounded-full px-4 py-1 outline-none' />
                     </div>
-                    <button className="w-full bg-black text-white rounded-full py-2 flex gap-3 items-center justify-center" type="submit">
+                    <button className="w-full bg-black dark:text-gray-200 dark:bg-neutral-900 text-gray-200 rounded-full py-2 flex gap-3 items-center justify-center" type="submit">
                         <span>{alreadyHaveAccount ? 'Login' : 'Register '}</span>
                         <BoltIcon className="h-4 w-4 text-white" />
                     </button>
                     {
                         !alreadyHaveAccount ?
                             <p
-                                className='text-center cursor-pointer pb-1 underline'
+                                className='text-center cursor-pointer underline text-gray-800 dark:text-gray-200'
                                 onClick={() => setAlreadyHaveAccount(true)}
                             >
                                 Proceed with Signin
@@ -85,7 +85,7 @@ const Login = () => {
                             :
 
                             <p
-                                className='text-center cursor-pointer'
+                                className='text-center cursor-pointer underline text-gray-800 dark:text-gray-200'
                                 onClick={() => setAlreadyHaveAccount(false)}
                             >
                                 Don't have an account? Signup
