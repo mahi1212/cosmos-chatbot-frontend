@@ -139,13 +139,13 @@ export default function Settings() {
                                 <p>TOKEN USED: {usage >= limit ? limit : usage}</p>
                                 <p>YOUR LIMIT: {limit} </p>
                             </div>
-                            <p className="my-2 relative flex flex-col space-y-2">
+                            <div className="my-2 relative flex flex-col space-y-2">
                                 <p> You have reached <span className="font-bold">{Number(percentage.toFixed(2)) >= 100 ? 'maximum unit' : percentage.toFixed(2) + "%"}</span> of your token limit.</p>
                                 {/* make percentage of limit and usage token */}
                                 <div className="h-2 w-full bg-gray-300 rounded-md overflow-hidden">
                                     <div className="h-2 bg-indigo-500 rounded-md" style={{ width: `${percentage.toFixed(2)}%` }}></div>
                                 </div>
-                            </p>
+                            </div>
                         </div>
                     </div>
                     {/* model */}
@@ -157,7 +157,7 @@ export default function Settings() {
                             id="gpt-model"
                             name="gpt-model"
                             className="w-full border-2 outline-none border-dashed rounded-md py-1"
-                            defaultValue={settings?.model || 'gpt-3.5-turbo'}
+                            // defaultValue={settings?.model || 'gpt-3.5-turbo'}
                             onChange={(e) => setModel(e.target.value)}
                             value={model || 'gpt-3.5-turbo'}
                         >
