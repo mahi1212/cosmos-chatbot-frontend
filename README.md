@@ -1,30 +1,42 @@
-# React + TypeScript + Vite
+# CosmosAI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Welcome to CosmosAI, a powerful chatbot system that allows users to interact with an AI system and customize its behavior according to their needs. With CosmosAI, you can set prompts for the AI system and watch it respond accordingly. You also have the flexibility to set the maximum number of tokens and choose from different GPT versions such as 3.5 Turbo, GPT4o, and GPT4.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Prompt-based AI interaction: Set prompts for the AI system and observe its responses.
+- Token limit: As a free user, you have a token limit of 3000.
+- GPT versions: Choose from different GPT versions, including 3.5 Turbo, GPT4o, and GPT4.
+- Dark mode: Enjoy a visually pleasing experience with the dark mode feature.
+- Package updates: Stay up-to-date with the latest features and improvements by updating your CosmosAI package.
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+To get started with CosmosAI, follow these steps:
 
-- Configure the top-level `parserOptions` property like this:
+1. Clone the repository to your local machine.
+2. Set up the environment variables in the `.env` file:
+  - `VITE_OPENAI_API_KEY`: Your OpenAI API key.
+  - `VITE_EMAILJS_PUBLIC_KEY`: Your EmailJS public key.
+  - `VITE_EMAILJS_SERVICE_ID`: Your EmailJS service ID.
+  - `VITE_EMAILJS_TEMPLATE_ID`: Your EmailJS template ID.
+3. Install the required dependencies by running `npm install`.
+4. Start the application by running `npm start`.
+5. Add backend from repo [cosmos-backend](https://github.com/mahi1212/cosmos-chatbot-server.git)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Usage
+
+Once you have set up CosmosAI, you can start interacting with the chatbot system by accessing the application through your preferred web browser. Customize the prompts, adjust the token limit, and explore the different GPT versions to enhance your AI experience.
+
+## Contributing
+
+We welcome contributions from the community to make CosmosAI even better. If you have any ideas, bug reports, or feature requests, please open an issue or submit a pull request on our GitHub repository.
+
+## License
+
+CosmosAI is licensed under the [MIT License](LICENSE).
+
+## Contact
+
+For any inquiries or support, please contact us at dev.mahinur.rahman@gmail.com
