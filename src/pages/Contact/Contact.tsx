@@ -51,26 +51,26 @@ const Contact: React.FC = () => {
             <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
                 <div className="space-y-6">
                     <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Get in Touch</h1>
+                        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl text-black dark:text-gray-200">Get in Touch</h1>
                         <p className="text-gray-500 dark:text-gray-400">
                             Have a question or want to work together? Fill out the form below or send me a message.
                         </p>
                     </div>
                     <div className="grid gap-6">
                         <div className="grid gap-2">
-                            <h2 className="text-xl font-semibold">Mahinur Rahman</h2>
-                            <p className="text-gray-500">Full stack Developer (React + Typescript + Node + Express + Docker)</p>
-                            <p className="text-gray-500">
+                            <h2 className="text-xl font-semibold text-black dark:text-gray-200">Mahinur Rahman</h2>
+                            <p className="text-gray-500 dark:text-gray-400">Full stack Developer (React + Typescript + Node + Express + Docker)</p>
+                            <p className="text-gray-500 dark:text-gray-400">
                                 I'm a passionate frontend developer with 2+ years of experience. I specialize in building modern,
                                 responsive web applications using the latest technologies.
                             </p>
                         </div>
                         <div className="grid gap-2">
-                            <h3 className="text-lg font-semibold">Contact Info</h3>
+                            <h3 className="text-lg font-semibold text-black dark:text-gray-200">Contact Info</h3>
                             <div className="space-y-2">
                                 <div className="flex items-center gap-2">
-                                    <InboxIcon className="h-5 w-5 text-gray-500 " />
-                                    <a className="text-gray-500 hover:text-gray-900"
+                                    <InboxIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
+                                    <a className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
                                         // send email
                                         href="mailto:dev.mahinur.rahman@gmail.com"
                                     >
@@ -79,7 +79,7 @@ const Contact: React.FC = () => {
                                 </div>
                                 <div className="flex items-center gap-2">
                                     <PhoneIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
-                                    <a className="text-gray-500 hover:text-gray-900"
+                                    <a className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-300"
                                         // call the number
                                         href="tel:+8801778287079"
                                     >
@@ -89,13 +89,13 @@ const Contact: React.FC = () => {
                             </div>
                         </div>
                         <div className="grid gap-2">
-                            <h3 className="text-lg font-semibold">Social</h3>
+                            <h3 className="text-lg font-semibold text-black dark:text-gray-200">Social</h3>
                             <div className="flex items-center gap-4">
-                                <Link className="text-gray-500 hover:text-gray-900" to={'https://www.linkedin.com/in/mahinur-rahman-14102a218/'}>
+                                <Link className="text-gray-500 hover:text-gray-900 dark:hover:text-gray-300" to={'https://www.linkedin.com/in/mahinur-rahman-14102a218/'}>
                                     <LiaLinkedin className="h-8 w-8" />
                                     <span className="sr-only">LinkedIn</span>
                                 </Link>
-                                <Link className="text-gray-500 hover:text-gray-900" to={'https://github.com/mahi1212'}>
+                                <Link className="text-gray-500 hover:text-gray-900 dark:hover:text-gray-300" to={'https://github.com/mahi1212'}>
                                     <BsGithub className="h-6 w-6" />
                                     <span className="sr-only">GitHub</span>
                                 </Link>
@@ -106,18 +106,18 @@ const Contact: React.FC = () => {
                 <div className="space-y-6">
                     <form className="grid gap-6" ref={form} onSubmit={handleSendMail}>
                         <div className="grid gap-2">
-                            <label htmlFor="name">Name*</label>
-                            <input id="name" name="name" placeholder="Enter your name" className="border-2 p-2 rounded-md outline-none" />
+                            <label htmlFor="name" className="dark:text-gray-400 text-gray-500">Name*</label>
+                            <input id="name" name="name" placeholder="Enter your name" className="border-2 border-gray-100 dark:border-gray-400 text-black dark:text-white p-2 rounded-md outline-none bg-white dark:bg-neutral-700" />
                         </div>
                         <div className="grid gap-2">
-                            <label htmlFor="email">Email*</label>
-                            <input id="email" name="email" placeholder="Enter your email" type="email" className="border-2 p-2 rounded-md outline-none" />
+                            <label htmlFor="email" className="dark:text-gray-400 text-gray-500">Email*</label>
+                            <input id="email" name="email" placeholder="Enter your email" type="email" className="border-2 border-gray-100 dark:border-gray-400 text-black dark:text-white p-2 rounded-md outline-none bg-white dark:bg-neutral-700" />
                         </div>
                         <div className="grid gap-2">
-                            <label htmlFor="message">Message*</label>
-                            <textarea id="message" name="message" placeholder="Enter your message" rows={5} className="border-2 p-2 rounded-md outline-none" />
+                            <label htmlFor="message" className="dark:text-gray-400 text-gray-500">Message*</label>
+                            <textarea id="message" name="message" placeholder="Enter your message" rows={5} className="border-2 border-gray-100 dark:border-gray-400 text-black dark:text-white p-2 rounded-md outline-none bg-white dark:bg-neutral-700" />
                         </div>
-                        <button className="w-full border-2 py-2 bg-slate-800 text-white rounded-md flex items-center justify-center gap-2 hover:bg-slate-900 transition" type="submit">
+                        <button className="w-full border-2 border-white dark:border-gray-400 py-2 bg-slate-800 text-white dark:text-gray-300 rounded-md flex items-center justify-center gap-2 hover:bg-slate-900 transition" type="submit">
                             SEND MESSAGE
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-5">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
