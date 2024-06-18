@@ -44,7 +44,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
                     .map((item, index) => {
                         return <div
                             key={index}
-                            className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 cursor-pointer transition-all duration-300 ease-in-out mb-2 ${chat_id == item._id && 'font-semibold'}`}
+                            className={`py-2 px-3 bg-slate-100 dark:bg-neutral-800 text-black dark:text-gray-300 rounded-md flex justify-between items-center gap-2 cursor-pointer transition-all ease-in-out mb-2 ${chat_id == item._id && 'font-semibold'}`}
                             onClick={() => {
                                 if (chat_id == item._id) {
                                     return
@@ -65,7 +65,7 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
 
                                 {/* delete a chat */}
                                 <button
-                                    className={`p-2 bg-gray-200 rounded-full hover:bg-red-200 transition-all duration-300 ease-in-out`}
+                                    className={`p-2 bg-gray-200 dark:bg-neutral-700 rounded-full hover:bg-red-200 dark:hover:bg-green-800 transition-all ease-in-out`}
                                     onClick={() => {
                                         setDeleteModal(true)
                                     }}

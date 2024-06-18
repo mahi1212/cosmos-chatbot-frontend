@@ -7,7 +7,7 @@ import SettingOption from "./SettingOption"
 // import { useAuth } from "src/context/AuthContent"
 import { useEffect } from "react"
 import { getAllChats } from "src/helpers/api-communicator"
-import { useAtom } from "jotai"
+import { useAtom, useAtomValue } from "jotai"
 import { chatHistoryAtom, chatIdAtom, checkNewChatArrivedAtom, hideSidebarAtom, titleAtom } from "src/store/jotai"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 
@@ -23,7 +23,7 @@ const Sidebar: React.FC = () => {
 
   const [chat_id, setChat_id] = useAtom(chatIdAtom)
   const [title, setTitle] = useAtom(titleAtom)
-  const checkNewChatArrived = useAtom(checkNewChatArrivedAtom)
+  const checkNewChatArrived = useAtomValue(checkNewChatArrivedAtom)
   // console.log(title)
   // console.log(history)
   useEffect(() => {
@@ -35,12 +35,12 @@ const Sidebar: React.FC = () => {
 
 
   return (
-    <div className={`bg-slate-200 h-full relative p-3 pb-14 rounded-md min-h-[88vh]`}>
+    <div className={`bg-slate-200 dark:bg-neutral-700 h-full relative p-3 pb-14 rounded-md min-h-[88vh]`}>
       {/* header */}
       <div className="flex gap-2 items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <FcGlobe className="animate-spin text-lg" />
-          <p className="text-lg">COSMOS AI</p>
+          <p className="text-lg text-gray-700 dark:text-gray-300">COSMOS AI</p>
         </div>
         {/* for adding new chat */}
         <div className="flex justify-center items-center gap-2">
@@ -56,14 +56,14 @@ const Sidebar: React.FC = () => {
               New Chat
             </span>
             <CiSquarePlus
-              className="text-lg text-green-800 cursor-pointer w-6 h-6 hover:text-slate-500 transition-all duration-300 ease-in-out"
+              className="text-lg text-green-800 dark:text-gray-300 cursor-pointer w-6 h-6 hover:text-slate-500 transition-all duration-300 ease-in-out"
             />
           </div>
 
           {/* collapse button */}
           {
             hidden === false && <TbLayoutSidebarLeftCollapseFilled
-              className="text-lg cursor-pointer w-6 h-6 transition-all duration-300 ease-in-out"
+              className="text-lg cursor-pointer w-6 h-6 transition-all duration-300 ease-in-out text-black dark:text-gray-300"
               onClick={() => setHidden(true)}
             />
           }

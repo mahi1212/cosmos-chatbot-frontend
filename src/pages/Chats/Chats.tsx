@@ -134,9 +134,9 @@ const Chats: React.FC = () => {
     };
     // console.log(chats.length)
     useEffect(() => {
-        if(chats.length === 2){
+        if (chats.length === 2) {
             setCheckNewChatArrived(true)
-        }else{
+        } else {
             setCheckNewChatArrived(false)
         }
     }, [chats.length])
@@ -168,7 +168,7 @@ const Chats: React.FC = () => {
             toast.success('Copied to clipboard')
         });
     };
-    
+
     const formatContent = (content: string) => {
         const parts = content.split(/(```[\s\S]*?```)/g);
         return parts.map((part, index) => {
@@ -182,10 +182,10 @@ const Chats: React.FC = () => {
             }
         });
     };
-    
-    const CodeBlock = ({ codeContent }: {codeContent: string}) => {
+
+    const CodeBlock = ({ codeContent }: { codeContent: string }) => {
         const [copied, setCopied] = useState(false);
-    
+
         const handleCopy = () => {
             navigator.clipboard.writeText(codeContent)
                 .then(() => {
@@ -193,10 +193,10 @@ const Chats: React.FC = () => {
                     toast.success('Copied code to clipboard')
                 })
                 .catch(err => console.error('Failed to copy text:', err));
-            
+
             setTimeout(() => setCopied(false), 2000); // Reset copied state after 2 seconds
         };
-    
+
         return (
             <div className="relative bg-gray-900 p-3 my-2 rounded-md overflow-x-auto">
                 <pre>
@@ -213,7 +213,7 @@ const Chats: React.FC = () => {
     };
 
     return (
-        <div className='h-full bg-slate-100 sm:p-4 p-2 relative rounded-md'>
+        <div className='h-full bg-slate-100 dark:bg-neutral-700 sm:p-4 p-2 relative rounded-md'>
             {/* for title of page using react Helmet*/}
             <Helmet>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -226,15 +226,15 @@ const Chats: React.FC = () => {
             <div className='text-end flex justify-center'>
                 {
                     title && title !== "" && title !== "No title" && (
-                        <p className='text-center border-b-2 w-full pb-4 font-semibold text-sm'>CONTEXT - {title.toUpperCase()}</p>
+                        <p className='text-center border-b-2 border-gray-300 dark:border-neutral-600 w-full pb-4 font-semibold text-sm text-black dark:text-gray-200'>CONTEXT - {title.toUpperCase()}</p>
                     )
                 }
             </div>
             <div className='max-h-[75vh] overflow-y-auto pb-10'>
                 {/* first chat question if chat is empty*/}
                 <div className='flex items-center gap-2 my-4'>
-                    <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
-                    <p className={`rounded-lg py-2 px-5 inline shadow-md bg-gray-100 dark:bg-gray-800 text-gray-100`}>
+                    <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2 dark:text-gray-200 text-black' />
+                    <p className={`rounded-lg py-2 px-5 inline shadow-md bg-gray-100 dark:bg-gray-800  dark:text-gray-100`}>
                         Hello sir, How can I assist you?
                     </p>
                 </div>
@@ -243,7 +243,7 @@ const Chats: React.FC = () => {
                     {chats.map((chat, index) => (
                         <div key={index} className={` flex items-start space-x-3 ${chat.role === 'user' ? 'justify-end' : ''} ${index == 0 && 'mt-4 md:mt-0'}`}>
                             {chat.role === 'assistant' && (
-                                <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
+                                <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2 dark:text-gray-200 text-black' />
                             )}
 
 
@@ -261,15 +261,15 @@ const Chats: React.FC = () => {
 
                             {chat.role === 'user' && (
                                 // <RiRobot3Fill className='w-10 h-10 border-2 rounded-full p-2' />
-                                <p className='w-10 h-10 border-2 rounded-full p-2 text-center bg-slate-800 text-white'>{auth?.user?.name.charAt(0).toUpperCase()}</p>
+                                <p className='w-10 h-10 border-2 rounded-full p-[6px] text-center bg-slate-800 text-white'>{auth?.user?.name.charAt(0).toUpperCase()}</p>
                             )}
                         </div>
                     ))}
 
                     {
                         loading && <div className={`flex items-start space-x-3 justify-start mt-4 md:mt-0`}>
-                            <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2' />
-                            <div className="rounded-lg py-2 px-5 inline shadow-md text-gray-100 bg-gray-800 max-w-[80%]" >
+                            <RiRobot3Fill className='min-w-10 min-h-10 border-2 rounded-full p-2 dark:text-gray-200 text-black' />
+                            <div className="rounded-lg py-2 px-5 inline shadow-md text-gray-100 dark:text-gray-600 bg-gray-800 dark:bg-neutral-300  max-w-[80%]" >
                                 Mahi bot is thinking...
                             </div>
                         </div>
@@ -279,7 +279,7 @@ const Chats: React.FC = () => {
                 </div>
             </div>
 
-            <div className="absolute -bottom-2 w-[97%] bg-slate-100 flex gap-2">
+            <div className="absolute bottom-3 w-[97%] bg-slate-100 dark:bg-neutral-700 flex gap-2">
                 <input
                     disabled={loading}
                     type="text"
@@ -300,12 +300,12 @@ const Chats: React.FC = () => {
 
                     }}
                     placeholder={chats?.length == 0 ? 'Write your first message..' : 'Enter a message'}
-                    className="relative mt-2 mb-[20px] w-[85%] p-[11px] pr-10 outline-none border border-gray-300 bg-white rounded"
+                    className="relative mt-2 w-[85%] p-[11px] pr-10 outline-none border border-gray-300 dark:border-neutral-500 bg-white dark:bg-neutral-600 text-black dark:text-white rounded"
                 />
                 <button
                     onClick={handleChatCompletion}
                     disabled={loading === true}
-                    className={`relative mt-2 mb-[20px] w-[15%] p-[10px] outline-none border border-gray-300 rounded transition ${message.length == 0 ? 'bg-slate-100 cursor-not-allowed text-gray-500' : 'bg-white cursor-pointer'}  ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+                    className={`relative mt-2 w-[15%] p-[10px] outline-none border border-gray-300 dark:border-gray-500 rounded transition ${message.length == 0 ? 'bg-slate-100 dark:bg-neutral-700 cursor-not-allowed text-gray-400 dark:text-gray-600' : 'bg-white dark:bg-neutral-800 text-gray-500 cursor-pointer'}  ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
                 >
                     {loading ? <p className='flex justify-center items-center gap-2'>
                         <span className='hidden md:block'>Loading..</span>
