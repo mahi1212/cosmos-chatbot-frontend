@@ -1,4 +1,3 @@
-import { PiNewspaper } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { RiCustomerService2Line, RiRobot3Line } from "react-icons/ri";
 import Typewriter from 'typewriter-effect';

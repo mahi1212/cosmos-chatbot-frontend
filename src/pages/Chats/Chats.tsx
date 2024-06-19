@@ -84,7 +84,7 @@ const Chats: React.FC = () => {
     }, [chats]);
 
     useEffect(() => {
-        setChat_id(localStorage.getItem('chat_id') || '')
+        setChat_id(localStorage.getItem('chat_id') !== '' && '' || '')
     }, [])
 
 
