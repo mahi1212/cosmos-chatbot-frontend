@@ -1,6 +1,6 @@
 import { useSetAtom } from "jotai";
 import { IoMdTrash } from "react-icons/io";
-import { PiSmileySadLight } from "react-icons/pi";
+import { PiSmileyLight, PiSmileySadLight } from "react-icons/pi";
 import { chatIdAtom, deleteModalAtom, hideSidebarAtom } from "src/store/jotai";
 
 interface ChatHistoryProps {
@@ -29,8 +29,8 @@ const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
                 <p
                     className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2`}
                 >
-                    No chats available
-                    <PiSmileySadLight />
+                    Start your cosmos conversation
+                    <PiSmileyLight className="mt-[2px]" />
                 </p>
             }
 
