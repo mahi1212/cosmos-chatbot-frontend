@@ -10,6 +10,7 @@ import { getAllChats } from "src/helpers/api-communicator"
 import { useAtom, useAtomValue } from "jotai"
 import { chatHistoryAtom, chatIdAtom, checkNewChatArrivedAtom, hideSidebarAtom, titleAtom } from "src/store/jotai"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
+import TranslatorHistory from "src/components/Translator/History/TranslatorHistory"
 
 
 const Sidebar: React.FC = () => {
@@ -75,7 +76,8 @@ const Sidebar: React.FC = () => {
       {/* History list */}
       <div className="max-h-[75vh] overflow-y-auto ">
         {
-          pathname.includes('chats') ? <ChatHistory history={history} chat_id={chat_id} /> : <RewriteHistory />
+          pathname.includes('chats') ? <ChatHistory history={history} chat_id={chat_id} /> :
+            pathname.includes('translator') ? <TranslatorHistory /> : <RewriteHistory />
         }
       </div>
 

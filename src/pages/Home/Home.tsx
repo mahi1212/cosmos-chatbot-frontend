@@ -1,8 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { RiCustomerService2Line, RiRobot3Line } from "react-icons/ri";
-import Typewriter from 'typewriter-effect';
 // import { useAuth } from "src/context/AuthContent";
 import { Helmet } from "react-helmet";
+import { PiNewspaper } from "react-icons/pi";
+import FeatureCard from "src/components/Global/FeatureCard/FeatureCard";
 
 const Home: React.FC = () => {
     const navigate = useNavigate()
@@ -30,7 +31,7 @@ const Home: React.FC = () => {
                     }}
                 >
                     <p className="flex gap-2 items-center">
-                        <PiNewspaper />
+                        <PiNewspaper /> 
                         Rewrite anything
                     </p>
                     <Typewriter
@@ -43,29 +44,39 @@ const Home: React.FC = () => {
                         }}
                     />
                 </div> */}
-                
-                {/* personal assitant */}
-                <div
-                    className="border-2 p-4 flex flex-col gap-3 rounded-md border-slate-300 dark:border-gray-600 hover:bg-slate-200 dark:hover:bg-gray-800 w-full transition"
-                    onClick={() => {
-                        navigate('chats')
+
+                <FeatureCard
+                    title="Personal Assistant"
+                    icon={<RiRobot3Line />}
+                    path="chats"
+                    typewriterOptions={{
+                        strings: [
+                            'Chat with your personal assistant',
+                            'Take preparation for IELTS exam',
+                            'Boost your IELTS scores with expert tips',
+                            'Your AI tutor for IELTS success'
+                        ],
+                        autoStart: true,
+                        loop: true,
+                        deleteSpeed: 10,
                     }}
-                >
-                    <p className="flex gap-2 items-center">
-                        <RiRobot3Line />
-                        Personal assistant
-                    </p>
-
-                    <Typewriter
-                        options={{
-                            strings: ['Chat with your personal assistant', 'Take preparation for IELTS exam', 'Boost your IELTS scores with expert tips', 'Your AI tutor for IELTS success',],
-                            autoStart: true,
-                            loop: true,
-                            deleteSpeed: 10,
-
-                        }}
-                    />
-                </div>
+                />
+                <FeatureCard
+                    title="AI Translator"
+                    icon={<PiNewspaper />}
+                    path="translator"
+                    typewriterOptions={{
+                        strings: [
+                            'Translate with trained language model',
+                            'No more Google searching',
+                            'Simple and fast translation',
+                            'Say goodbye to language barrier'
+                        ],
+                        autoStart: true,
+                        loop: true,
+                        deleteSpeed: 10,
+                    }}
+                />
             </div>
         </div>
     )

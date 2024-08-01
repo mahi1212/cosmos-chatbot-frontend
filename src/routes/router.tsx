@@ -9,6 +9,7 @@ import Contact from "src/pages/Contact/Contact";
 import Home from "src/pages/Home/Home";
 import Rewrite from "src/pages/Rewrite/Rewrite";
 import Settings from "src/pages/Settings/Settings";
+import Translator from "src/pages/Translator/Translator";
 
 
 export const router = createBrowserRouter([
@@ -44,6 +45,10 @@ export const router = createBrowserRouter([
                     {
                         path: "chats",
                         element: <Chats />
+                    },
+                    {
+                        path: "translator",
+                        element: <Translator />
                     },
                     {
                         path: "rewrite",
