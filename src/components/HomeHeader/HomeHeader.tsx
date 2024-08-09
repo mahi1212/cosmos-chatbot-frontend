@@ -12,6 +12,7 @@ import { SlNotebook } from "react-icons/sl";
 const navigation = [
   { name: 'Home', href: '/' },
   { name: 'Contact', href: '/contact' },
+  { name: 'Pricing', href: '/pricing' },
 ]
 
 export default function HomeHeader() {
