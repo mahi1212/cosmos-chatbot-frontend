@@ -10,18 +10,18 @@ const TranslatorInsights = () => {
     ];
 
     const data = [
-        { name: 'Group A', value: 64 },
-        { name: 'Group B', value: 36 },
+        { name: 'Group A', value: 100 },
+        { name: 'Group B', value: 0 },
     ];
 
-    const COLORS = ['#eb4034', '#2217e8'];
+    const COLORS = ['#399918', '#FF8225'];
     const RADIAN = Math.PI / 180;
     const NIDDLE_COLOR = ['#399918', '#FF8225', '#A02334'];
     const cx = 150; // Center x position of the pie chart
-    const cy = 200; // Center y position of the pie chart
+    const cy = 190; // Center y position of the pie chart
     const iR = 60;  // Inner radius of the pie chart (doughnut effect)
     const oR = 80;  // Outer radius of the pie chart
-    const value = 65; // Value for the needle
+    const value = 0; // Value for the needle
 
     const needle = (value: number, data: any, cx: number, cy: number, iR: number, oR: number, color: any) => {
         let total = 0;
@@ -69,7 +69,7 @@ const TranslatorInsights = () => {
                 </PieChart>
             </ResponsiveContainer>
 
-            <div className='-mt-20 flex items-start justify-center flex-col gap-2'>
+            <div className='-mt-20 flex items-start justify-center flex-col gap-2 dark:text-gray-200 text-black'>
                 <p className='flex items-center justify-center gap-1'>
                     <CiSquareInfo className='size-5 ' />
                     80% content detected as AI driven!
@@ -81,7 +81,7 @@ const TranslatorInsights = () => {
             </div>
 
 
-            <ResponsiveContainer width="100%" height={200} className="-mt-24 ps-10 sm:ps-0">
+            <ResponsiveContainer width="100%" height={200} className="-mt-24 ps-6 sm:ps-0">
                 <PieChart>
                     <Pie
                         data={Probability}
@@ -102,7 +102,7 @@ const TranslatorInsights = () => {
                     {needle(value, data, cx, cy, iR, oR, '#d0d000')}
                 </PieChart>
             </ResponsiveContainer>
-            <h1 className="dark:text-gray-200 text-black mt-20 sm:mt-5 font-semibold text-center text-lg capitalize"> PLAGIARISM LEVEL: Medium </h1>
+            <h1 className="dark:text-gray-200 text-black mt-20 sm:mt-5 font-semibold text-center text-lg capitalize"> PLAGIARISM LEVEL: LOW </h1>
             
         </div>
     )
