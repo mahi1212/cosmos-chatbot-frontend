@@ -12,9 +12,10 @@ interface FeatureCardProps {
         loop: boolean;
         deleteSpeed: number;
     };
+    image: string;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, path, typewriterOptions }) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, path, typewriterOptions, image }) => {
     const navigate = useNavigate();
 
     return (
@@ -28,6 +29,11 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, path, typewriter
             </p>
             <Typewriter
                 options={typewriterOptions}
+            />
+            <img
+                src={image}
+                alt="image"
+                className=' rounded-md h-[250px] object-fill'
             />
         </div>
     );

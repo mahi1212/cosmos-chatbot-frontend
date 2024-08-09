@@ -1,14 +1,11 @@
-import { useNavigate } from "react-router-dom";
 import { RiCustomerService2Line, RiRobot3Line } from "react-icons/ri";
-// import { useAuth } from "src/context/AuthContent";
 import { Helmet } from "react-helmet";
 import { PiNewspaper } from "react-icons/pi";
 import FeatureCard from "src/components/Global/FeatureCard/FeatureCard";
+import ChatbotImage from "src/assets/images/chatbot_ui_one.jpg";
+import TranslatorImage from "src/assets/images/translator_ui_two.jpg";
 
 const Home: React.FC = () => {
-    const navigate = useNavigate()
-    // const user = useAuth();
-    // console.log(user)
     return (
         <div className="bg-slate-100 dark:bg-neutral-800 rounded-md sm:p-4 p-2 text-gray-900 dark:text-gray-100">
             {/* for title of page using react Helmet*/}
@@ -17,7 +14,7 @@ const Home: React.FC = () => {
                 <title>Home - Cosmos AI </title>
                 <link rel="canonical" href="http://mysite.com/example" />
             </Helmet>
-
+            
             <p className="flex items-center gap-2">
                 <RiCustomerService2Line />
                 Please Choose a service below
@@ -60,6 +57,7 @@ const Home: React.FC = () => {
                         loop: true,
                         deleteSpeed: 10,
                     }}
+                    image={ChatbotImage}
                 />
                 <FeatureCard
                     title="AI Translator"
@@ -76,6 +74,7 @@ const Home: React.FC = () => {
                         loop: true,
                         deleteSpeed: 10,
                     }}
+                    image={TranslatorImage}
                 />
             </div>
         </div>
