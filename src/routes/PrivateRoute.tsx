@@ -4,7 +4,7 @@ import { useAuth } from "src/context/AuthContent"
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 
     const auth = useAuth();
-    console.log(auth)
+    // console.log(auth)
 
     if (!auth) {
         return <div>Redirecting...</div>
