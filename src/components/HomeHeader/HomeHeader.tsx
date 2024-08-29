@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import logo from "src/assets/images/cosmos.svg"
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from 'src/context/AuthContent'
 import { GoPerson } from 'react-icons/go'
 import { darkMoodAtom, hideSidebarAtom } from 'src/store/jotai'
@@ -17,6 +17,8 @@ const navigation = [
 
 export default function HomeHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const location = useLocation();
+  const pathname = location.pathname;
   const navigate = useNavigate()
   const user = useAuth()
   const [hidden, setHidden] = useAtom(hideSidebarAtom)
@@ -32,14 +34,14 @@ export default function HomeHeader() {
 
         <div className="flex md:hidden gap-3 items-center">
           {
-            hidden && <button
+            hidden && pathname.includes('chats') && <button
               className="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-md p-2.5 "
               onClick={() => setHidden(false)}
             >
               <SlNotebook className='' />
             </button>
           }
-
+          {/* 3 bar for mobile menu */}
           <button
             type="button"
             className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5"

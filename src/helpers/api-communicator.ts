@@ -110,3 +110,12 @@ export const updateSettings = async (settings: SettingsInterface) => {
     const data = await res.data;
     return data
 }
+
+export const translateText = async (content: string, operation: string, target_language: string) => {
+    const res = await axios.post('/translation/translate-rewrite', { content, operation, target_language })
+    if (res.status !== 200) {
+        throw new Error('Unable to translate text')
+    }
+    const data = await res.data;
+    return data
+}

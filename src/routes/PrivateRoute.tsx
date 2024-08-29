@@ -11,7 +11,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (auth.isLoggedin === false) {
-        return <Navigate to="login" />;
+        return <Navigate to="/login" />;
     }
 
     return children

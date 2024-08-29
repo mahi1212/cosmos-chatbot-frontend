@@ -1,7 +1,10 @@
 import { useSetAtom } from "jotai";
 import { IoMdTrash } from "react-icons/io";
 import { PiSmileyLight, PiSmileySadLight } from "react-icons/pi";
+import { useAuth } from "src/context/AuthContent";
 import { chatIdAtom, deleteModalAtom, hideSidebarAtom } from "src/store/jotai";
+import LoginToContinue from "src/assets/images/login-to-continue.svg";
+import { NavLink } from "react-router-dom";
 
 interface ChatHistoryProps {
     history: ChatHistoryItem[];
@@ -13,27 +16,42 @@ interface ChatHistoryItem {
 }
 
 const ChatHistory: React.FC<ChatHistoryProps> = ({ history, chat_id }) => {
+    const auth = useAuth();
     const setChat_id = useSetAtom(chatIdAtom)
     const setHidden = useSetAtom(hideSidebarAtom)
     const setDeleteModal = useSetAtom(deleteModalAtom)
-    
-    // console.log(history)
 
+    // console.log(history)
+    // console.log(auth?.isLoggedin)
 
     return (
-        <div className="py-2">
+        <div className="py-2 md:min-h-[400px]">
             {/* if history is blank */}
             {/* if history has one item and its title is 'No title */}
-            {
-                history.length == 0 || history.length == 1 && history[0].title == 'No title' &&
-                <p
-                    className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2`}
-                >
-                    Start your cosmos conversation
-                    <PiSmileyLight className="mt-[2px]" />
-                </p>
-            }
+            <>
+                {
+                    history.length == 0 || history.length == 1 && history[0].title == 'No title' &&
+                    <p
+                        className={`py-2 px-3 bg-slate-100 rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2`}
+                    >
+                        Start your cosmos conversation
+                        <PiSmileyLight className="mt-[2px]" />
+                    </p>
+                }
+            </>
+            {/* if no auth or loggedin is false */}
+            <>
+                {
+                    (auth?.isLoggedin == false || !auth) &&
+                    <div
+                        className={`py-2 px-3 flex-col rounded-md flex justify-between items-center gap-2 transition-all duration-300 ease-in-out mb-2 mt-36 md:mt-28`}
+                    >
 
+                        <img src={LoginToContinue} alt="icon" className="w-full h-[200px] object-contain " />
+                        <NavLink to={'/login'} className=" uppercase font-semibold text-black dark:text-gray-300 ">Login to save your chat</NavLink>
+                    </div>
+                }
+            </>
             {/* map hisotry */}
             {
                 history

@@ -32,41 +32,6 @@ const Chats: React.FC = () => {
     useEffect(() => {
         setPercentage((usage / limit) * 100);
     }, [usage]);
-    // const [response, setResponse] = useState([])
-    // const handleChatResponse = async () => {
-    //     console.log(message)
-    //     if (message.length == 0) {
-    //         alert('Please enter a message')
-    //     }
-    //     setLoading(true)
-    //     try {
-    //         const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/wf/vectorSearch`, {
-    //             prompt: message,
-    //             project: import.meta.env.VITE_PROJECT_NAME,
-    //             n: 5,
-    //             openai_api_key: import.meta.env.VITE_OPENAI_API_KEY
-    //         })
-
-    //         // console.log(res)
-    //         if (res) {
-    //             console.log('Here')
-    //             console.log(res.data.response.matching_texts)
-    //             const openAiResponse = await axios.post(`http://localhost:5000/chat-completion`, {
-    //                 mainPrompt: message,
-    //                 context: res.data.response.matching_texts
-    //             })
-    //             console.log('Here 2')
-
-    //             console.log(openAiResponse.data.text)
-    //             setResponse(openAiResponse.data.text)
-    //         }
-    //     } catch (e) {
-    //         console.log(e)
-    //     } finally {
-    //         setLoading(false)
-    //     }
-
-    // }
 
     const [message, setMessage] = useState('')
     const [chats, setChats] = useState<MessageInterface[]>([])

@@ -2,46 +2,53 @@ import { useAtomValue } from "jotai";
 import { useState } from "react"
 import { Helmet } from "react-helmet";
 import toast from "react-hot-toast";
-import { BsRobot } from "react-icons/bs";
-import { HiLanguage } from "react-icons/hi2";
-import { PiRocketLaunch } from "react-icons/pi";
+import { BsRobot, BsTranslate } from "react-icons/bs";
+import { GiToothbrush } from "react-icons/gi";
+import { GoPaste } from "react-icons/go";
+import { IoCheckmarkDone, IoRocketOutline } from "react-icons/io5";
+import { LuCopy } from "react-icons/lu";
 import LanguageSelector from "src/components/Translator/Language/LanguageSelector";
+import { translateText } from "src/helpers/api-communicator";
 import { selectedLanguageAtom } from "src/store/jotai";
+
 
 const Translator = () => {
     const [text, setText] = useState<string>('');
     const [translatedText, setTranslatedText] = useState<string>('');
     // const [language, setLanguage] = useState<string>('');
     const selectedLanguage = useAtomValue(selectedLanguageAtom)
-    console.log(selectedLanguage)
 
-    const handleTranslate = () => {
+    const handleTranslate = async (operation: 'translate' | 'rewrite') => {
         if (text.trim().length === 0) {
             toast.error('Please enter text to translate!');
             return;
         }
-        toast.success('Translation successful!');
-        // toast.promise(
-        //     fetch('https://api.funtranslations.com/translate/yoda.json', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             text: text,
-        //         }),
-        //     })
-        //         .then((res) => res.json())
-        //         .then((data) => {
-        //             setTranslatedText(data.contents.translated);
-        //         }),
-        //     {
-        //         loading: 'Translating...',
-        //         success: 'Translation successful!',
-        //         error: 'Failed to translate!',
-        //     }
-        // );
+
+        const data = {
+            content: text,
+            target: selectedLanguage.name,
+            operation: operation
+        }
+
+        try {
+            toast.promise(
+                translateText(data.content, data.target, data.operation),
+                {
+                    loading: 'Translating...',
+                    success: 'Translation successful!',
+                    error: 'Failed to translate!',
+                }
+            );
+            const response = await translateText(data.content, data.target, data.operation);
+            // console.log(response)
+            setTranslatedText(response.content);
+        } catch (e: any) {
+            console.error('Failed to update settings', e);
+        }
+
     }
+
+    const [isCopied, setIsCopied] = useState(false);
 
     const handleCopyButton = () => {
         if (translatedText.trim().length === 0) {
@@ -49,8 +56,13 @@ const Translator = () => {
             return;
         }
         navigator.clipboard.writeText(translatedText);
-        toast.success('Text copied to clipboard!');
-    }
+        setIsCopied(true);
+
+        // Reset the button text after 2 seconds
+        setTimeout(() => {
+            setIsCopied(false);
+        }, 1000);
+    };
 
     const handlePasteButton = () => {
         //    check if permission is granted
@@ -76,9 +88,15 @@ const Translator = () => {
 
     }
 
+    const handleClearButton = () => {
+        setText('');
+        setTranslatedText('');
+    }
+
+
     // console.log(text);
     return (
-        <div className="h-full bg-slate-100 dark:bg-neutral-700 sm:p-4 p-2 relative rounded-md overflow-hidden">
+        <div className="h-full bg-slate-100 dark:bg-neutral-700 sm:p-4 p-2 relative rounded-md">
             {/* Helmet for SEO */}
             <Helmet>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -107,28 +125,41 @@ const Translator = () => {
                     />
 
                     <div className="absolute bottom-2 right-2 text-white flex gap-2">
-                        <button
-                            className=" bg-slate-500 rounded-md p-2"
-                            onClick={handlePasteButton}
-                        >
-                            Paste
-                            📋
-                        </button>
+                        {
+                            text.length == 0 ?
+                                <button
+                                    className=" bg-slate-500 rounded-md p-2 flex items-center gap-2"
+                                    onClick={handlePasteButton}
+                                >
+                                    Paste
+                                    <GoPaste className="text-white size-4" />
+                                </button> :
+                                <button
+                                    className={`bg-slate-500 rounded-md p-2 flex items-center gap-2 transition-opacity duration-300 ease-in-out`}
+                                    onClick={handleClearButton}
+                                >
+                                    Clear
+                                    <GiToothbrush className="text-white size-4" />
+                                </button>
+                        }
+
+
 
                         {/* translate button */}
                         <button
-                            className=" bg-slate-500 rounded-md p-2"
-                            onClick={handleTranslate}
+                            className=" bg-slate-500 rounded-md p-2 flex items-center gap-2"
+                            onClick={()=> handleTranslate('translate')}
                         >
                             Translate
-                            ✨
+                            <BsTranslate className="text-white size-4" />
                         </button>
+
                         <button
-                            className=" bg-slate-500 rounded-md p-2"
-                            onClick={handleTranslate}
+                            className=" bg-slate-500 rounded-md p-2 text-nowrap flex items-center gap-2"
+                            onClick={()=> handleTranslate('rewrite')}
                         >
-                            Detect AI
-                            ✨
+                            Rewrite
+                            <IoRocketOutline className=" text-xl " />
                         </button>
                     </div>
 
@@ -159,19 +190,16 @@ const Translator = () => {
                         <div className="absolute bottom-2 right-2 text-white flex gap-2">
                             {/* copy button */}
                             <button
-                                className=" bg-slate-500 rounded-md p-2"
+                                className="bg-slate-500 rounded-md p-2 flex items-center gap-2 transition duration-300"
                                 onClick={handleCopyButton}
                             >
-                                Copy
-                                📋
+                                {isCopied ? 'Copied' : 'Copy'}
+                                {
+                                    isCopied ? <IoCheckmarkDone className="text-white size-4" /> :
+                                        <LuCopy className="text-white size-4" />
+                                }
                             </button>
 
-                            <button
-                                className=" bg-slate-500 rounded-md p-2 text-nowrap flex items-center gap-2"
-                            >
-                                Rewrite
-                                <PiRocketLaunch className="text-yellow-400 text-xl animate-bounce" />
-                            </button>
                         </div>
                     }
 

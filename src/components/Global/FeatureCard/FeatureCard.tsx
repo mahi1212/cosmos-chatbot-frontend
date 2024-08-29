@@ -33,7 +33,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon, path, typewriter
             <img
                 src={image}
                 alt="image"
-                className=' rounded-md h-[250px] object-fill'
+                className=' rounded-md h-[300px] object-fill'
             />
         </div>
     );

@@ -1,5 +1,6 @@
-import { Fragment, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
+import { useState } from 'react';
+import { Combobox } from '@headlessui/react';
+// import classNames from 'classnames';
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { useAtom } from 'jotai';
 import { selectedLanguageAtom } from 'src/store/jotai';
@@ -112,69 +113,79 @@ function classNames(...classes: any) {
     return classes.filter(Boolean).join(' ')
 }
 
+type Language = {
+    id: number;
+    name: string;
+};
+
 export default function LanguageSelector() {
-    
-    const [selectedLanguage, setSelectedLanguage] = useAtom(selectedLanguageAtom)
-    console.log(selectedLanguage)
+    const [selectedLanguage, setSelectedLanguage] = useAtom<Language>(selectedLanguageAtom);
+    const [query, setQuery] = useState('');
+
+    const filteredLanguages =
+        query === ''
+            ? languages
+            : languages.filter((language) =>
+                language.name.toLowerCase().includes(query.toLowerCase())
+            );
 
     return (
-        <Listbox value={selectedLanguage} onChange={setSelectedLanguage}>
-            {({ open }) => (
-                <>
-                    <div className="relative w-full -mt-1">
-                        <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6">
-                            <span className="block truncate">{selectedLanguage.name}</span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                            </span>
-                        </Listbox.Button>
+        <Combobox
+            as="div"
+            value={selectedLanguage}
+            onChange={(value: Language | null) => {
+                if (value !== null) {
+                    setSelectedLanguage(value);
+                }
+            }}
+        >
+            <div className="relative -mt-1">
+                <Combobox.Input
+                    className="w-full rounded-md border-0 bg-white py-1.5 pl-3 pr-10 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 outline-none sm:text-sm sm:leading-6"
+                    onChange={(event) => setQuery(event.target.value)}
+                    displayValue={(language: Language) => language?.name.toUpperCase() || ''}
+                    placeholder="SELECT LANGUAGE..."
+                />
+                <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
+                    <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                </Combobox.Button>
 
-                        <Transition
-                            show={open}
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                        >
-                            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {languages
-                                .sort((a, b) => a.name.localeCompare(b.name))
-                                .map((language) => (
-                                    <Listbox.Option
-                                        key={language.id}
-                                        className={({ active }) =>
-                                            classNames(
-                                                active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                                                'relative cursor-default select-none py-2 pl-3 pr-9'
-                                            )
-                                        }
-                                        value={language}
-                                    >
-                                        {({ selected, active }) => (
-                                            <>
-                                                <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                                    {language.name}
-                                                </span>
+                {filteredLanguages.length > 0 && (
+                    <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                        {filteredLanguages.map((language) => (
+                            <Combobox.Option
+                                key={language.id}
+                                value={language}
+                                className={({ active }) =>
+                                    classNames(
+                                        'relative cursor-default select-none py-2 pl-8 pr-4',
+                                        active ? 'bg-indigo-600 text-white' : 'text-gray-900'
+                                    )
+                                }
+                            >
+                                {({ active, selected }) => (
+                                    <>
+                                        <span className={classNames('block truncate', selected && 'font-semibold')}>
+                                            {language.name}
+                                        </span>
 
-                                                {selected ? (
-                                                    <span
-                                                        className={classNames(
-                                                            active ? 'text-white' : 'text-indigo-600',
-                                                            'absolute inset-y-0 right-0 flex items-center pr-4'
-                                                        )}
-                                                    >
-                                                        <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                                    </span>
-                                                ) : null}
-                                            </>
+                                        {selected && (
+                                            <span
+                                                className={classNames(
+                                                    'absolute inset-y-0 left-0 flex items-center pl-1.5',
+                                                    active ? 'text-white' : 'text-indigo-600'
+                                                )}
+                                            >
+                                                <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                                            </span>
                                         )}
-                                    </Listbox.Option>
-                                ))}
-                            </Listbox.Options>
-                        </Transition>
-                    </div>
-                </>
-            )}
-        </Listbox>
-    )
+                                    </>
+                                )}
+                            </Combobox.Option>
+                        ))}
+                    </Combobox.Options>
+                )}
+            </div>
+        </Combobox>
+    );
 }

@@ -11,6 +11,7 @@ import Pricing from "src/pages/Pricing/Pricing";
 import Rewrite from "src/pages/Rewrite/Rewrite";
 import Settings from "src/pages/Settings/Settings";
 import Translator from "src/pages/Translator/Translator";
+import PrivateRoute from "./PrivateRoute";
 
 
 export const router = createBrowserRouter([
@@ -25,7 +26,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "settings",
-                element: <Settings />
+                element: <PrivateRoute> <Settings /> </PrivateRoute>
             },
             {
                 path: "contact",

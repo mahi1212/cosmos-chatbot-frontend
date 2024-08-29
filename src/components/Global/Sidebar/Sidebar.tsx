@@ -4,21 +4,18 @@ import { CiSquarePlus } from "react-icons/ci"
 import ChatHistory from "src/components/Chats/History/ChatHistory"
 import RewriteHistory from "src/components/Rewrite/History/RewriteHistory"
 import SettingOption from "./SettingOption"
-// import { useAuth } from "src/context/AuthContent"
 import { useEffect } from "react"
 import { getAllChats } from "src/helpers/api-communicator"
 import { useAtom, useAtomValue } from "jotai"
 import { chatHistoryAtom, chatIdAtom, checkNewChatArrivedAtom, hideSidebarAtom, titleAtom } from "src/store/jotai"
 import { TbLayoutSidebarLeftCollapseFilled } from "react-icons/tb";
 import TranslatorInsights from "src/components/Translator/TranslatorInsights/TranslatorInsights"
-import { MdWorkspacePremium } from "react-icons/md"
 import PremiumButton from "./PremiumButton"
 
 
 const Sidebar: React.FC = () => {
   const [history, setHistory] = useAtom(chatHistoryAtom)
   const [hidden, setHidden] = useAtom(hideSidebarAtom)
-
   const location = useLocation();
   const pathname = location.pathname;
   // console.log(pathname)

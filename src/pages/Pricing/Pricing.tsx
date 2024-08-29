@@ -9,7 +9,7 @@ const includedFeatures = [
 
 export default function Pricing() {
     return (
-        <div className="bg-white py-10">
+        <div className="dark:bg-neutral-200 py-10 rounded-md">
             <div className="mx-auto max-w-7xl px-6 lg:px-8">
                 <div className="mx-auto max-w-2xl sm:text-center">
                     <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
@@ -44,9 +44,9 @@ export default function Pricing() {
                     <div className="-mt-2 p-2 lg:mt-0 lg:w-full lg:max-w-md lg:flex-shrink-0">
                         <div className="rounded-2xl bg-gray-50 py-10 text-center ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
                             <div className="mx-auto max-w-xs px-8">
-                                <p className="text-base font-semibold text-gray-600">Get monthly access very easily </p>
+                                <p className="text-base text-gray-600">Get <span className='font-bold'>one month</span> premium access</p>
                                 <p className="mt-6 flex items-baseline justify-center gap-x-2">
-                                    <span className="text-5xl font-bold tracking-tight text-gray-900">$500</span>
+                                    <span className="text-5xl font-bold tracking-tight text-gray-900">499</span>
                                     <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">BDT</span>
                                 </p>
                                 <button
