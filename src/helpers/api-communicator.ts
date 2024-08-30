@@ -128,3 +128,12 @@ export const makePayment = async (session_id: string) => {
     const data = await res.data;
     return data
 }
+
+export const checkTier = async () => {
+    const res = await axios.get('/user/check-tier')
+    if (res.status !== 200) {
+        throw new Error('Unable to check tier')
+    }
+    const data = await res.data;
+    return data
+}

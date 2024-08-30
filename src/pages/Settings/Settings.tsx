@@ -10,7 +10,7 @@ import { BsSave2Fill } from "react-icons/bs";
 import { useAtom } from "jotai";
 import { limitAtom, usageAtom, usagePercentageAtom } from "src/store/jotai";
 import { StarIcon } from "@heroicons/react/24/outline";
-import { PiSmileyAngry } from "react-icons/pi";
+import { PiSmileyAngry, PiSmileyDuotone } from "react-icons/pi";
 
 export default function Settings() {
     const auth = useAuth();
@@ -24,14 +24,14 @@ export default function Settings() {
     const [usage, setUsage] = useAtom<number>(usageAtom);
     const [frequencyPenalty, setFrequencyPenalty] = useState<number>(0);
     // const [topP, setTopP] = useState<number>(0.9);
-    // console.log(usage)
+    console.log(auth)
     useEffect(() => {
         async function fetchSettings() {
             // @ts-ignore
-            if (auth?.user && auth.user.id) {
+            if (auth?.user && auth.user._id) {
                 try {
                     // @ts-ignore
-                    const data = await getSettings(auth.user.id);
+                    const data = await getSettings(auth.user._id);
                     setSettings(data.settings);
                 } catch (e: any) {
                     console.log(e.response.data.message);
@@ -41,7 +41,7 @@ export default function Settings() {
         fetchSettings();
     }, [auth?.user]);
 
-    // console.log(settings)
+    console.log(settings)
     useEffect(() => {
         if (settings) {
             setSystemPrompt(settings.system_prompt ?? null);
@@ -99,20 +99,20 @@ export default function Settings() {
                     <p className="mt-2 text-gray-500 ">- Customize your AI chatbot settings.</p>
                 </div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm pb-2 font-medium text-gray-700 dark:text-gray-200" htmlFor="system-prompt">
-                            Cosmos Membership
+                    <div className="sm:col-span-3 text-gray-700 dark:text-gray-200">
+                        <label className="block text-sm pb-2 font-medium " htmlFor="system-prompt">
+                            COSMOS MEMBERSHIP
                         </label>
                         <div className="mt-1 flex gap-2">
                             {
                                 settings?.tier == 'premium' ? <StarIcon className="w-6 h-6 text-yellow-500" /> : 
-                                <PiSmileyAngry className="w-6 h-6 text-yellow-500" />
+                                <PiSmileyDuotone className="w-6 h-6 text-green-600" />
                             }
                             <span className="font-semibold"> {settings?.tier?.toUpperCase()}</span> TIER
                         </div>
                     </div>
-                    <div className="sm:col-span-3">
-                        <label className="block text-sm pb-2 font-medium text-gray-700 dark:text-gray-200" htmlFor="system-prompt">
+                    <div className="sm:col-span-3 text-gray-700 dark:text-gray-200">
+                        <label className="block text-sm pb-2 font-medium " htmlFor="system-prompt">
                             MEMBERSHIP EXPIRATION DATE
                         </label>
                         <div className="mt-1">

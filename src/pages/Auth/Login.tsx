@@ -56,9 +56,9 @@ const Login = () => {
                 localStorage.clear()
                 toast.success('Authenticaiton successful')
             } else {
-                localStorage.setItem('email', email);
-                localStorage.setItem('password', password);
                 await auth?.signup(name, email, password)
+                // localStorage.setItem('email', email);
+                // localStorage.setItem('password', password);
                 // toast.success('Please login to continue with')
                 navigate('/login')
                 setAlreadyHaveAccount(true)

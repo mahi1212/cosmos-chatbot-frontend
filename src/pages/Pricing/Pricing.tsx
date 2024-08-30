@@ -1,4 +1,6 @@
 import { CheckIcon } from '@heroicons/react/20/solid'
+import toast from 'react-hot-toast'
+import { checkTier } from 'src/helpers/api-communicator'
 
 const includedFeatures = [
     'Unlimited access to all service',
@@ -52,7 +54,15 @@ export default function Pricing() {
                                 <button
                                     onClick={() => {
                                         // open one time payment link in new tab
-                                        window.open('https://buy.stripe.com/test_aEU4ioclK8B5g3C28a')
+                                        checkTier().
+                                            then((res) => {
+                                                if (res.isPremium === true) {
+                                                    toast.success('You are already a premium member', { icon: '🎉' })
+                                                } else {
+                                                    window.open('https://buy.stripe.com/test_aEU4ioclK8B5g3C28a', '_self')
+                                                }
+                                            })
+
                                     }}
                                     className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >
