@@ -12,6 +12,9 @@ import Rewrite from "src/pages/Rewrite/Rewrite";
 import Settings from "src/pages/Settings/Settings";
 import Translator from "src/pages/Translator/Translator";
 import PrivateRoute from "./PrivateRoute";
+import PaymentFailed from "src/pages/Payment/PaymentFailed";
+import PaymentSuccess from "src/pages/Payment/PaymentSuccess";
+import PaymentProcessing from "src/pages/Payment/PaymentProcessing";
 
 
 export const router = createBrowserRouter([
@@ -35,6 +38,18 @@ export const router = createBrowserRouter([
             {
                 path: "pricing",
                 element: <Pricing />
+            },
+            {
+                path: "payment-processing",
+                element: <PaymentProcessing />
+            },
+            {
+                path: "payment-success",
+                element: <PaymentSuccess />
+            },
+            {
+                path: "payment-failed",
+                element: <PaymentFailed />
             },
             {
                 path: "login",

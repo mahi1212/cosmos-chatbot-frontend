@@ -9,6 +9,8 @@ import { IoIosLogOut } from "react-icons/io";
 import { BsSave2Fill } from "react-icons/bs";
 import { useAtom } from "jotai";
 import { limitAtom, usageAtom, usagePercentageAtom } from "src/store/jotai";
+import { StarIcon } from "@heroicons/react/24/outline";
+import { PiSmileyAngry } from "react-icons/pi";
 
 export default function Settings() {
     const auth = useAuth();
@@ -97,6 +99,29 @@ export default function Settings() {
                     <p className="mt-2 text-gray-500 ">- Customize your AI chatbot settings.</p>
                 </div>
                 <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+                    <div className="sm:col-span-3">
+                        <label className="block text-sm pb-2 font-medium text-gray-700 dark:text-gray-200" htmlFor="system-prompt">
+                            Cosmos Membership
+                        </label>
+                        <div className="mt-1 flex gap-2">
+                            {
+                                settings?.tier == 'premium' ? <StarIcon className="w-6 h-6 text-yellow-500" /> : 
+                                <PiSmileyAngry className="w-6 h-6 text-yellow-500" />
+                            }
+                            <span className="font-semibold"> {settings?.tier?.toUpperCase()}</span> TIER
+                        </div>
+                    </div>
+                    <div className="sm:col-span-3">
+                        <label className="block text-sm pb-2 font-medium text-gray-700 dark:text-gray-200" htmlFor="system-prompt">
+                            MEMBERSHIP EXPIRATION DATE
+                        </label>
+                        <div className="mt-1">
+                            {
+                                settings?.expireAt ? new Date(settings.expireAt).toLocaleDateString() : 'N/A'
+                            }
+                        </div>
+                    </div>
+
                     <div className="sm:col-span-3">
                         <label className="block text-sm pb-2 font-medium text-gray-700 dark:text-gray-200" htmlFor="system-prompt">
                             System Prompt
@@ -227,7 +252,7 @@ export default function Settings() {
                     {
                         auth?.isLoggedin === true &&
                         <button
-                            onClick={()=> {
+                            onClick={() => {
                                 auth.logout();
                                 navigate('/login');
                             }}

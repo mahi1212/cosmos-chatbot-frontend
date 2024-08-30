@@ -51,8 +51,8 @@ export default function Pricing() {
                                 </p>
                                 <button
                                     onClick={() => {
-                                        // handle payment
-                                        console.log('Payment handled')
+                                        // open one time payment link in new tab
+                                        window.open('https://buy.stripe.com/test_aEU4ioclK8B5g3C28a')
                                     }}
                                     className="mt-10 block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                 >

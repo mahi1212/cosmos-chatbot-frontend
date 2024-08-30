@@ -119,3 +119,12 @@ export const translateText = async (content: string, operation: string, target_l
     const data = await res.data;
     return data
 }
+
+export const makePayment = async (session_id: string) => {
+    const res = await axios.patch('/user/payment', { session_id })
+    if (res.status !== 200) {
+        throw new Error('Unable to make payment')
+    }
+    const data = await res.data;
+    return data
+}
