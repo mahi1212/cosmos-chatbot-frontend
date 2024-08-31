@@ -23,9 +23,9 @@ const Translator = () => {
             toast.error('Please enter text to translate!');
             return;
         }
-
+        // console.log(text)
         const data = {
-            content: text,
+            content: operation === 'translate' ? text : translatedText,
             target: selectedLanguage.name,
             operation: operation
         }
@@ -43,7 +43,8 @@ const Translator = () => {
             // console.log(response)
             setTranslatedText(response.content);
         } catch (e: any) {
-            console.error('Failed to update settings', e);
+            // console.log('Failed', e.response.data.message);
+            toast.error(e.response.data.message, { duration: 5000 });
         }
 
     }
@@ -105,8 +106,12 @@ const Translator = () => {
             </Helmet>
 
             <div className="pb-3 grid grid-cols-1 sm:grid-cols-2 gap-2 dark:text-gray-200 text-black">
-                <p className="uppercase text-center md:text-start my-3 md:my-0">
-                    AI Translator / Rewriter / Detector
+                <p className="uppercase text-center md:text-start my-3 md:my-0 flex items-center gap-2 justify-between pr-2">
+                    AI Translator / Rewriter  {
+                        // count characters
+                        text.length > 0 &&
+                        <span className="">{text.length} / 5000</span>
+                    }
                 </p>
                 <div className="uppercase flex items-start justify-between w-full gap-4">
                     <LanguageSelector />
@@ -116,9 +121,16 @@ const Translator = () => {
 
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 h-full pb-10">
-                <div className="w-full relative">
+                <div className="w-full relative ">
                     <textarea
-                        onChange={(e) => setText(e.target.value)}
+                        onChange={(e) => {
+                            // do not let user type more than 5000 characters
+                            if (e.target.value.length > 5000) {
+                                toast.error('Maximum 5000 characters allowed!');
+                                return;
+                            }
+                            setText(e.target.value)
+                        }}
                         value={text}
                         placeholder="Enter any language text to translate here.."
                         className="bg-slate-200 rounded outline-none p-2 w-full h-full resize-none"
@@ -146,21 +158,25 @@ const Translator = () => {
 
 
                         {/* translate button */}
-                        <button
-                            className=" bg-slate-500 rounded-md p-2 flex items-center gap-2"
-                            onClick={()=> handleTranslate('translate')}
-                        >
-                            Translate
-                            <BsTranslate className="text-white size-4" />
-                        </button>
+                        {
+                            translatedText.length === 0 && <button
+                                className=" bg-slate-500 rounded-md p-2 flex items-center gap-2"
+                                onClick={() => handleTranslate('translate')}
+                            >
+                                Translate
+                                <BsTranslate className="text-white size-4" />
+                            </button>
+                        }
+                        {
+                            translatedText.length === 0 && <button
+                                className=" bg-slate-500 rounded-md p-2 text-nowrap flex items-center gap-2"
+                                onClick={() => handleTranslate('rewrite')}
+                            >
+                                Rewrite
+                                <IoRocketOutline className=" text-xl " />
+                            </button>
+                        }
 
-                        <button
-                            className=" bg-slate-500 rounded-md p-2 text-nowrap flex items-center gap-2"
-                            onClick={()=> handleTranslate('rewrite')}
-                        >
-                            Rewrite
-                            <IoRocketOutline className=" text-xl " />
-                        </button>
                     </div>
 
 
@@ -199,7 +215,15 @@ const Translator = () => {
                                         <LuCopy className="text-white size-4" />
                                 }
                             </button>
-
+                            {
+                                translatedText.length !== 0 && <button
+                                    className=" bg-slate-500 rounded-md p-2 text-nowrap flex items-center gap-2"
+                                    onClick={() => handleTranslate('rewrite')}
+                                >
+                                    Rewrite
+                                    <IoRocketOutline className=" text-xl " />
+                                </button>
+                            }
                         </div>
                     }
 

@@ -15,7 +15,7 @@ import { PiSmileyAngry, PiSmileyDuotone } from "react-icons/pi";
 export default function Settings() {
     const auth = useAuth();
     const navigate = useNavigate();
-    const [limit, setLimit] = useAtom(limitAtom);
+    const [limit, setLimit] = useState<number>(import.meta.env.VITE_FREE_TIER_TOKEN_LIMIT as number);
     const [settings, setSettings] = useState<any>({});
     const [systemPrompt, setSystemPrompt] = useState<string | null>(null);
     const [model, setModel] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export default function Settings() {
     const [usage, setUsage] = useAtom<number>(usageAtom);
     const [frequencyPenalty, setFrequencyPenalty] = useState<number>(0);
     // const [topP, setTopP] = useState<number>(0.9);
-    console.log(auth)
+    // console.log(auth)
     useEffect(() => {
         async function fetchSettings() {
             // @ts-ignore
@@ -41,7 +41,7 @@ export default function Settings() {
         fetchSettings();
     }, [auth?.user]);
 
-    console.log(settings)
+    // console.log(settings)
     useEffect(() => {
         if (settings) {
             setSystemPrompt(settings.system_prompt ?? null);
@@ -105,8 +105,8 @@ export default function Settings() {
                         </label>
                         <div className="mt-1 flex gap-2">
                             {
-                                settings?.tier == 'premium' ? <StarIcon className="w-6 h-6 text-yellow-500" /> : 
-                                <PiSmileyDuotone className="w-6 h-6 text-green-600" />
+                                settings?.tier == 'premium' ? <StarIcon className="w-6 h-6 text-yellow-500" /> :
+                                    <PiSmileyDuotone className="w-6 h-6 text-green-600" />
                             }
                             <span className="font-semibold"> {settings?.tier?.toUpperCase()}</span> TIER
                         </div>
@@ -117,7 +117,7 @@ export default function Settings() {
                         </label>
                         <div className="mt-1">
                             {
-                                settings?.expireAt ? new Date(settings.expireAt).toLocaleDateString() : 'N/A'
+                                settings?.tier == 'premium' ? new Date(settings.expireAt).toLocaleDateString() : 'N/A'
                             }
                         </div>
                     </div>
@@ -146,31 +146,24 @@ export default function Settings() {
                             Token Usage
                         </label>
                         <div className="mt-1 rounded-md border-2 outline-none border-dashed border-gray-300 px-6 py-[12px] text-gray-700 dark:text-gray-200">
-                            {/* <div className="space-y-1 text-center">
-                                <CloudUploadIcon className="mx-auto h-12 w-12 text-gray-400" />
-                                <div className="flex text-sm text-gray-600 ">
-                                    <label
-                                        className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                                        htmlFor="file-upload"
-                                    >
-                                        <span>Upload a file</span>
-                                        <input className="sr-only" id="file-upload" name="file-upload" type="file" />
-                                    </label>
-                                    <p className="pl-1">or drag and drop</p>
+                            {
+                                settings?.tier == 'premium' ? 'You have unlimited plan. Feel free to use everything you need!' :
+                                    <div className="flex justify-between">
+                                        <p>TOKEN USED: {usage >= limit ? limit : usage}</p>
+                                        <p>YOUR LIMIT: {limit} </p>
+                                    </div>
+                            }
+                            
+                            {
+                                settings?.tier == 'free' &&
+                                <div className="my-2 relative flex flex-col space-y-2">
+                                    <p> You have reached <span className="font-bold">{Number(percentage.toFixed(2)) >= 100 ? 'maximum unit' : percentage.toFixed(2) + "%"}</span> of your token limit.</p>
+                                    {/* make percentage of limit and usage token */}
+                                    <div className="h-2 w-full bg-gray-300 rounded-md overflow-hidden">
+                                        <div className="h-2 bg-indigo-500 rounded-md" style={{ width: `${percentage.toFixed(2)}%` }}></div>
+                                    </div>
                                 </div>
-                                <p className="text-xs text-gray-500 ">PNG, JPG, GIF up to 10MB</p>
-                            </div> */}
-                            <div className="flex justify-between">
-                                <p>TOKEN USED: {usage >= limit ? limit : usage}</p>
-                                <p>YOUR LIMIT: {limit} </p>
-                            </div>
-                            <div className="my-2 relative flex flex-col space-y-2">
-                                <p> You have reached <span className="font-bold">{Number(percentage.toFixed(2)) >= 100 ? 'maximum unit' : percentage.toFixed(2) + "%"}</span> of your token limit.</p>
-                                {/* make percentage of limit and usage token */}
-                                <div className="h-2 w-full bg-gray-300 rounded-md overflow-hidden">
-                                    <div className="h-2 bg-indigo-500 rounded-md" style={{ width: `${percentage.toFixed(2)}%` }}></div>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
                     {/* model */}
