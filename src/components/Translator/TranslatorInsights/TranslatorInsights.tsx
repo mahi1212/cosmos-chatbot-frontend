@@ -63,7 +63,7 @@ const TranslatorInsights = () => {
                         dataKey="value"
                     >
                         {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % 2]} />
+                            <Cell key={`cell-${index}-${entry}`} fill={COLORS[index % 2]} />
                         ))}
                     </Pie>
                 </PieChart>
@@ -96,14 +96,14 @@ const TranslatorInsights = () => {
                         dataKey="value"
                     >
                         {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={NIDDLE_COLOR[index % 3]} />
+                            <Cell key={`cell-${index}-${entry}`} fill={NIDDLE_COLOR[index % 3]} />
                         ))}
                     </Pie>
                     {needle(value, data, cx, cy, iR, oR, '#d0d000')}
                 </PieChart>
             </ResponsiveContainer>
             <h1 className="dark:text-gray-200 text-black mt-20 sm:mt-5 font-semibold text-center text-lg capitalize"> PLAGIARISM LEVEL: LOW </h1>
-            
+
         </div>
     )
 }

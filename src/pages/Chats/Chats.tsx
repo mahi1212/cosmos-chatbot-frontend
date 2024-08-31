@@ -120,7 +120,7 @@ const Chats: React.FC = () => {
                 }
 
             }).catch((e) => {
-                // console.log(e)
+                console.error(e)
                 toast.error('No chat avaiable')
             }).finally(() => {
                 toast.dismiss('fetching-chats')

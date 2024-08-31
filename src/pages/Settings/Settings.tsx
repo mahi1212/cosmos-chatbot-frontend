@@ -8,14 +8,15 @@ import { Helmet } from "react-helmet";
 import { IoIosLogOut } from "react-icons/io";
 import { BsSave2Fill } from "react-icons/bs";
 import { useAtom } from "jotai";
-import {  usageAtom, usagePercentageAtom } from "src/store/jotai";
+import { usageAtom, usagePercentageAtom } from "src/store/jotai";
 import { StarIcon } from "@heroicons/react/24/outline";
 import { PiSmileyDuotone } from "react-icons/pi";
 
 export default function Settings() {
     const auth = useAuth();
     const navigate = useNavigate();
-    const [limit, setLimit] = useState<number>(import.meta.env.VITE_FREE_TIER_TOKEN_LIMIT as number);
+    // const limit = useState<number>();
+    const limit = import.meta.env.VITE_FREE_TIER_TOKEN_LIMIT as number;
     const [settings, setSettings] = useState<any>({});
     const [systemPrompt, setSystemPrompt] = useState<string | null>(null);
     const [model, setModel] = useState<string | null>(null);
@@ -153,7 +154,7 @@ export default function Settings() {
                                         <p>YOUR LIMIT: {limit} </p>
                                     </div>
                             }
-                            
+
                             {
                                 settings?.tier == 'free' &&
                                 <div className="my-2 relative flex flex-col space-y-2">
