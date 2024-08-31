@@ -1,5 +1,5 @@
 import { InboxIcon, PhoneIcon } from "@heroicons/react/24/outline"
-import { useRef, useState } from "react"
+import { useRef } from "react"
 import { Helmet } from "react-helmet"
 import toast from "react-hot-toast"
 import { BsGithub } from "react-icons/bs"

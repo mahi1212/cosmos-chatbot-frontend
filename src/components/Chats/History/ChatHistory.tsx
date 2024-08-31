@@ -1,6 +1,6 @@
 import { useSetAtom } from "jotai";
 import { IoMdTrash } from "react-icons/io";
-import { PiSmileyLight, PiSmileySadLight } from "react-icons/pi";
+import { PiSmileyLight } from "react-icons/pi";
 import { useAuth } from "src/context/AuthContent";
 import { chatIdAtom, deleteModalAtom, hideSidebarAtom } from "src/store/jotai";
 import LoginToContinue from "src/assets/images/login-to-continue.svg";

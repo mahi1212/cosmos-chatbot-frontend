@@ -8,9 +8,9 @@ import { Helmet } from "react-helmet";
 import { IoIosLogOut } from "react-icons/io";
 import { BsSave2Fill } from "react-icons/bs";
 import { useAtom } from "jotai";
-import { limitAtom, usageAtom, usagePercentageAtom } from "src/store/jotai";
+import {  usageAtom, usagePercentageAtom } from "src/store/jotai";
 import { StarIcon } from "@heroicons/react/24/outline";
-import { PiSmileyAngry, PiSmileyDuotone } from "react-icons/pi";
+import { PiSmileyDuotone } from "react-icons/pi";
 
 export default function Settings() {
     const auth = useAuth();
